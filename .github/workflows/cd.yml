@@ -12,7 +12,16 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     steps:
+      - name: Check secrets exist
+        id: check
+        run: |
+          if [ -z "${{ secrets.SERVER_HOST }}" ]; then
+            echo "No server configured yet, skipping deploy"
+            echo "skip=true" >> $GITHUB_OUTPUT
+          fi
+
       - name: Deploy to server
+        if: steps.check.outputs.skip != 'true'
         uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.SERVER_HOST }}
