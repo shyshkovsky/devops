@@ -3,239 +3,177 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Oleksa Levchenko — DevOps & Systems Engineer</title>
+  <title>Shyshkovsky — DevOps & Systems Engineer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
   <!-- NAV -->
-  <nav class="nav">
-    <span class="nav-logo">OL</span>
+  <nav class="nav" id="nav">
+    <span class="nav-logo">Shyshkovsky</span>
     <ul class="nav-links">
-      <li><a href="#about">About</a></li>
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#contact">Contact</a></li>
+      <li><a href="#about"   data-i18n="nav_about">About</a></li>
+      <li><a href="#skills"  data-i18n="nav_skills">Skills</a></li>
+      <li><a href="#projects" data-i18n="nav_projects">Projects</a></li>
+      <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
     </ul>
+    <div class="lang-switcher" id="langSwitcher">
+      <button class="lang-btn active" data-lang="en">EN</button>
+      <button class="lang-btn" data-lang="ua">UA</button>
+      <button class="lang-btn" data-lang="cs">CZ</button>
+      <button class="lang-btn" data-lang="pl">PL</button>
+      <button class="lang-btn" data-lang="de">DE</button>
+    </div>
+    <button class="nav-burger" id="burger">☰</button>
   </nav>
 
   <!-- HERO -->
-  <section class="hero">
-    <div class="hero-bg-text">SHYSHKOVSKY</div>
+  <section class="hero" id="hero">
+    <div class="hero-noise"></div>
+    <div class="hero-grid-lines"></div>
     <div class="hero-content">
-      <div class="hero-tag"><span class="dot"></span>Available for work</div>
-      <h1 class="hero-name">Oleksa<br><em>Zhebchuk</em></h1>
-      <p class="hero-roles">
-        <span class="role-pill">DevOps Engineer</span>
-        <span class="role-pill">Systems Administrator</span>
-        <span class="role-pill">Python Developer</span>
-        <span class="role-pill">IT Helpdesk L1–L3</span>
-        <span class="role-pill">Cybersecurity</span>
-      </p>
-      <p class="hero-desc">
-        I build, automate, and secure infrastructure. From bare-metal server configuration
-        to containerised CI/CD pipelines — I make systems work reliably.
+      <div class="hero-tag">
+        <span class="pulse-dot"></span>
+        <span data-i18n="hero_available">Available for work</span>
+      </div>
+      <h1 class="hero-name">
+        <span class="line-reveal">Oleksa</span>
+        <span class="line-reveal delay-1"><em>Levchenko</em></span>
+      </h1>
+      <div class="hero-roles" id="heroRoles">
+        <span class="role-pill" data-i18n="role_devops">DevOps Engineer</span>
+        <span class="role-pill" data-i18n="role_sysadmin">Systems Administrator</span>
+        <span class="role-pill" data-i18n="role_python">Python Developer</span>
+        <span class="role-pill" data-i18n="role_helpdesk">IT Helpdesk L1–L3</span>
+        <span class="role-pill" data-i18n="role_cyber">Cybersecurity</span>
+      </div>
+      <p class="hero-desc" data-i18n="hero_desc">
+        I build, automate, and secure infrastructure. From bare-metal server configuration to containerised CI/CD pipelines — I make systems work reliably.
       </p>
       <div class="hero-cta">
-        <a href="#projects" class="btn-primary">See my work</a>
-        <a href="#contact" class="btn-ghost">Get in touch</a>
+        <a href="#projects" class="btn-primary" data-i18n="hero_cta_work">See my work</a>
+        <a href="#contact"  class="btn-ghost"   data-i18n="hero_cta_contact">Get in touch</a>
       </div>
     </div>
-    <div class="hero-terminal">
+    <div class="hero-terminal" id="terminal">
       <div class="terminal-bar">
-        <span class="t-dot red"></span>
-        <span class="t-dot yellow"></span>
-        <span class="t-dot green"></span>
-        <span class="t-title">oleksa@server:~</span>
+        <span class="t-dot red"></span><span class="t-dot yellow"></span><span class="t-dot green"></span>
+        <span class="t-title">shyshkovsky@server:~</span>
       </div>
-      <div class="terminal-body">
-        <p><span class="t-prompt">$</span> docker compose up --build</p>
-        <p class="t-out">✔ Network created</p>
-        <p class="t-out">✔ backend  — running on :8000</p>
-        <p class="t-out">✔ nginx    — listening on :80</p>
-        <p><span class="t-prompt">$</span> pytest backend/ -v</p>
-        <p class="t-out t-green">PASSED test_health [ 100% ]</p>
-        <p><span class="t-prompt">$</span> git push origin main</p>
-        <p class="t-out">→ CI/CD pipeline triggered</p>
-        <p class="t-out t-green">✔ Deployed successfully</p>
-        <p class="t-cursor"><span class="t-prompt">$</span> <span class="blink">▋</span></p>
-      </div>
+      <div class="terminal-body" id="termBody"></div>
     </div>
   </section>
 
   <!-- ABOUT -->
-  <section class="about" id="about">
-    <div class="section-label">01 / About</div>
+  <section class="about reveal-section" id="about">
+    <div class="section-label">01 / <span data-i18n="nav_about">About</span></div>
     <div class="about-grid">
-      <div class="about-left">
-        <h2 class="section-title">Who I am</h2>
-        <p>
-          I'm a systems-minded engineer based in Czech Republic with hands-on experience
-          across the full IT stack — from plugging in network cables to writing Python automation
-          scripts and deploying containerised applications.
-        </p>
-        <p>
-          My background spans IT helpdesk (L1–L3), network administration with Cisco and MikroTik,
-          VPN and VLAN configuration, server and user service management, and cybersecurity fundamentals.
-          More recently I've been pushing into DevOps — building CI/CD pipelines, working with Docker,
-          and getting comfortable with cloud infrastructure.
-        </p>
-        <p>
-          I learn fast, document everything, and care about making systems that actually work
-          in production — not just on my machine.
-        </p>
+      <div class="about-left reveal-child">
+        <h2 class="section-title" data-i18n="about_title">Who I am</h2>
+        <p data-i18n="about_p1">I'm a systems-minded engineer based in Czech Republic with hands-on experience across the full IT stack — from plugging in network cables to writing Python automation scripts and deploying containerised applications.</p>
+        <p data-i18n="about_p2">My background spans IT helpdesk (L1–L3), network administration with Cisco and MikroTik, VPN and VLAN configuration, server and user service management, and cybersecurity fundamentals. More recently I've been pushing into DevOps — building CI/CD pipelines, working with Docker, and getting comfortable with cloud infrastructure.</p>
+        <p data-i18n="about_p3">I learn fast, document everything, and care about making systems that actually work in production — not just on my machine.</p>
       </div>
-      <div class="about-right">
-        <div class="stat-card">
-          <div class="stat-num">L1–L3</div>
-          <div class="stat-label">Helpdesk experience</div>
-        </div>
-        <div class="stat-card accent">
-          <div class="stat-num">CI/CD</div>
-          <div class="stat-label">Automated pipelines</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-num">Cisco</div>
-          <div class="stat-label">+ MikroTik networking</div>
-        </div>
-        <div class="stat-card accent2">
-          <div class="stat-num">Docker</div>
-          <div class="stat-label">Containerised deployments</div>
-        </div>
+      <div class="about-right reveal-child delay-2">
+        <div class="stat-card"><div class="stat-num">L1–L3</div><div class="stat-label" data-i18n="stat_helpdesk">Helpdesk experience</div></div>
+        <div class="stat-card accent"><div class="stat-num">CI/CD</div><div class="stat-label" data-i18n="stat_cicd">Automated pipelines</div></div>
+        <div class="stat-card"><div class="stat-num">Cisco</div><div class="stat-label" data-i18n="stat_cisco">+ MikroTik networking</div></div>
+        <div class="stat-card accent2"><div class="stat-num">Docker</div><div class="stat-label" data-i18n="stat_docker">Containerised deployments</div></div>
       </div>
     </div>
   </section>
 
   <!-- SKILLS -->
-  <section class="skills" id="skills">
-    <div class="section-label">02 / Skills</div>
-    <h2 class="section-title">What I work with</h2>
+  <section class="skills reveal-section" id="skills">
+    <div class="section-label">02 / <span data-i18n="nav_skills">Skills</span></div>
+    <h2 class="section-title reveal-child" data-i18n="skills_title">What I work with</h2>
     <div class="skills-grid">
-
-      <div class="skill-group">
-        <div class="skill-group-title">DevOps & Cloud</div>
+      <div class="skill-group reveal-child">
+        <div class="skill-group-title" data-i18n="skills_devops">DevOps & Cloud</div>
         <div class="skill-tags">
-          <span class="stag">Docker</span>
-          <span class="stag">Docker Compose</span>
-          <span class="stag">GitHub Actions</span>
-          <span class="stag">CI/CD</span>
-          <span class="stag">Nginx</span>
-          <span class="stag">AWS EC2</span>
-          <span class="stag">Linux</span>
+          <span class="stag">Docker</span><span class="stag">Docker Compose</span>
+          <span class="stag">GitHub Actions</span><span class="stag">CI/CD</span>
+          <span class="stag">Nginx</span><span class="stag">AWS EC2</span><span class="stag">Linux</span>
         </div>
       </div>
-
-      <div class="skill-group">
-        <div class="skill-group-title">Development</div>
+      <div class="skill-group reveal-child delay-1">
+        <div class="skill-group-title" data-i18n="skills_dev">Development</div>
         <div class="skill-tags">
-          <span class="stag">Python</span>
-          <span class="stag">FastAPI</span>
-          <span class="stag">REST APIs</span>
-          <span class="stag">Git</span>
-          <span class="stag">Bash scripting</span>
-          <span class="stag">pytest</span>
+          <span class="stag">Python</span><span class="stag">FastAPI</span>
+          <span class="stag">REST APIs</span><span class="stag">Git</span>
+          <span class="stag">Bash scripting</span><span class="stag">pytest</span>
         </div>
       </div>
-
-      <div class="skill-group">
-        <div class="skill-group-title">Networking</div>
+      <div class="skill-group reveal-child delay-2">
+        <div class="skill-group-title" data-i18n="skills_network">Networking</div>
         <div class="skill-tags">
-          <span class="stag">Cisco</span>
-          <span class="stag">MikroTik</span>
-          <span class="stag">VPN</span>
-          <span class="stag">VLAN</span>
-          <span class="stag">TCP/IP</span>
-          <span class="stag">Firewall</span>
-          <span class="stag">DNS</span>
+          <span class="stag">Cisco</span><span class="stag">MikroTik</span>
+          <span class="stag">VPN</span><span class="stag">VLAN</span>
+          <span class="stag">TCP/IP</span><span class="stag">Firewall</span><span class="stag">DNS</span>
         </div>
       </div>
-
-      <div class="skill-group">
-        <div class="skill-group-title">Systems & Security</div>
+      <div class="skill-group reveal-child delay-3">
+        <div class="skill-group-title" data-i18n="skills_sys">Systems & Security</div>
         <div class="skill-tags">
-          <span class="stag">Windows Server</span>
-          <span class="stag">Ubuntu</span>
-          <span class="stag">Hyper-V</span>
-          <span class="stag">Active Directory</span>
-          <span class="stag">Cybersecurity</span>
-          <span class="stag">SSL/TLS</span>
-          <span class="stag">User management</span>
+          <span class="stag">Windows Server</span><span class="stag">Ubuntu</span>
+          <span class="stag">Hyper-V</span><span class="stag">Active Directory</span>
+          <span class="stag">Cybersecurity</span><span class="stag">SSL/TLS</span>
         </div>
       </div>
-
     </div>
   </section>
 
   <!-- PROJECTS -->
-  <section class="projects" id="projects">
-    <div class="section-label">03 / Projects</div>
-    <h2 class="section-title">Things I've built</h2>
+  <section class="projects reveal-section" id="projects">
+    <div class="section-label">03 / <span data-i18n="nav_projects">Projects</span></div>
+    <h2 class="section-title reveal-child" data-i18n="projects_title">Things I've built</h2>
     <div class="projects-grid">
-
-      <div class="project-card featured">
+      <div class="project-card featured reveal-child">
         <div class="project-num">01</div>
-        <div class="project-tag">DevOps · Python · Docker</div>
-        <h3>Portfolio CI/CD Pipeline</h3>
-        <p>
-          This site. Built from scratch as a hands-on DevOps project — FastAPI backend,
-          static HTML/CSS frontend, Nginx reverse proxy, all containerised with Docker Compose.
-          Fully automated CI/CD pipeline via GitHub Actions: pytest runs on every push,
-          Docker image builds, and the server redeploys automatically on green CI.
-        </p>
+        <div class="project-tag" data-i18n="proj1_tag">DevOps · Python · Docker</div>
+        <h3 data-i18n="proj1_title">Portfolio CI/CD Pipeline</h3>
+        <p data-i18n="proj1_desc">This site. Built from scratch as a hands-on DevOps project — FastAPI backend, static HTML/CSS frontend, Nginx reverse proxy, all containerised with Docker Compose. Fully automated CI/CD pipeline via GitHub Actions: pytest runs on every push, Docker image builds, and the server redeploys automatically on green CI.</p>
         <div class="project-stack">
           <span>FastAPI</span><span>Nginx</span><span>Docker</span><span>GitHub Actions</span><span>AWS EC2</span>
         </div>
         <div class="project-links">
-          <a href="https://github.com/shyshkovsky/devops" target="_blank" class="plink">GitHub →</a>
+          <a href="https://github.com/shyshkovsky/devops" target="_blank" class="plink" data-i18n="proj_github">GitHub →</a>
         </div>
       </div>
-
-      <div class="project-card">
+      <div class="project-card reveal-child delay-1">
         <div class="project-num">02</div>
-        <div class="project-tag">Networking · Systems</div>
-        <h3>Network Infrastructure Setup</h3>
-        <p>
-          Designed and configured enterprise network infrastructure including VLAN segmentation,
-          VPN tunnels, firewall rules, and routing on Cisco and MikroTik hardware.
-          Managed user access, server services, and ensured uptime across the environment.
-        </p>
+        <div class="project-tag" data-i18n="proj2_tag">Networking · Systems</div>
+        <h3 data-i18n="proj2_title">Network Infrastructure Setup</h3>
+        <p data-i18n="proj2_desc">Designed and configured enterprise network infrastructure including VLAN segmentation, VPN tunnels, firewall rules, and routing on Cisco and MikroTik hardware. Managed user access, server services, and ensured uptime across the environment.</p>
         <div class="project-stack">
           <span>Cisco</span><span>MikroTik</span><span>VLAN</span><span>VPN</span><span>Linux</span>
         </div>
       </div>
-
-      <div class="project-card">
+      <div class="project-card reveal-child delay-2">
         <div class="project-num">03</div>
-        <div class="project-tag">Python · Automation</div>
-        <h3>IT Helpdesk Automation Scripts</h3>
-        <p>
-          Python scripts built during L1–L3 helpdesk work to automate repetitive tasks —
-          user account provisioning, log parsing, service monitoring, and alerting.
-          Reduced manual workload and improved response times across the support workflow.
-        </p>
+        <div class="project-tag" data-i18n="proj3_tag">Python · Automation</div>
+        <h3 data-i18n="proj3_title">IT Helpdesk Automation</h3>
+        <p data-i18n="proj3_desc">Python scripts built during L1–L3 helpdesk work to automate repetitive tasks — user account provisioning, log parsing, service monitoring, and alerting. Reduced manual workload and improved response times across the support workflow.</p>
         <div class="project-stack">
           <span>Python</span><span>Bash</span><span>Windows Server</span><span>Active Directory</span>
         </div>
       </div>
-
     </div>
   </section>
 
   <!-- CONTACT -->
-  <section class="contact" id="contact">
-    <div class="section-label">04 / Contact</div>
+  <section class="contact reveal-section" id="contact">
+    <div class="section-label">04 / <span data-i18n="nav_contact">Contact</span></div>
     <div class="contact-inner">
-      <h2 class="section-title">Let's work together</h2>
-      <p class="contact-sub">
-        Open to DevOps, sysadmin, or Python developer roles. Drop me a message.
-      </p>
-      <div class="contact-links">
+      <h2 class="section-title reveal-child" data-i18n="contact_title">Let's work together</h2>
+      <p class="contact-sub reveal-child delay-1" data-i18n="contact_sub">Open to DevOps, sysadmin, or Python developer roles. Drop me a message.</p>
+      <div class="contact-links reveal-child delay-2">
         <a href="mailto:your@email.com" class="contact-item">
           <span class="ci-label">Email</span>
-          <span class="ci-val">kinagshyshkovsky@gmail.com</span>
+          <span class="ci-val">your@email.com</span>
         </a>
         <a href="https://github.com/shyshkovsky" target="_blank" class="contact-item">
           <span class="ci-label">GitHub</span>
@@ -250,8 +188,8 @@
   </section>
 
   <footer class="footer">
-    <span>© 2026 Oleksandr Zhebchuk</span>
-    <span>Built with FastAPI · Docker · GitHub Actions</span>
+    <span>© 2026 Shyshkovsky</span>
+    <span data-i18n="footer_built">Built with FastAPI · Docker · GitHub Actions</span>
   </footer>
 
   <script src="main.js"></script>
