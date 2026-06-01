@@ -1,5 +1,5 @@
-fastapi
-uvicorn
+fastapi==0.115.12
+starlette==0.46.2
+httpx==0.28.1
 pytest
-httpx
-httpx2
+uvicorn
