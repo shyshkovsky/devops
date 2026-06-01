@@ -255,9 +255,10 @@ const termLines = [
   { type: 'success', text: '✔ Deployed successfully' },
 ];
 
-const termBody = document.getElementById('termBody');
+function initTerminal() {
+  const termBody = document.getElementById('termBody');
+  if (!termBody) return;
 
-if (termBody) {
   termLines.forEach((line, i) => {
     const p = document.createElement('p');
     p.className = 't-line';
@@ -273,19 +274,19 @@ if (termBody) {
     }
 
     termBody.appendChild(p);
-
-    setTimeout(() => p.classList.add('visible'), 600 + i * 220);
+    setTimeout(() => p.classList.add('visible'), 800 + i * 240);
   });
 
-  // cursor at end
   setTimeout(() => {
     const cur = document.createElement('p');
     cur.innerHTML = `<span class="t-prompt">$</span><span class="t-cursor"></span>`;
     cur.className = 't-line';
     termBody.appendChild(cur);
     setTimeout(() => cur.classList.add('visible'), 100);
-  }, 600 + termLines.length * 220);
+  }, 800 + termLines.length * 240);
 }
+
+window.addEventListener('load', initTerminal);
 
 /* ── Mobile burger ────────────────────────────── */
 const burger   = document.getElementById('burger');
