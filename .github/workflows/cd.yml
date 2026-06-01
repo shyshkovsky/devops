@@ -9,7 +9,11 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: production
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    permissions:
+      contents: read
 
     steps:
       - name: Check secrets exist
@@ -19,6 +23,9 @@ jobs:
             echo "No server configured yet, skipping deploy"
             echo "skip=true" >> $GITHUB_OUTPUT
           fi
+
+      - name: Debug host (temporary)
+        run: echo "HOST=${{ secrets.SERVER_HOST }}"
 
       - name: Deploy to server
         if: steps.check.outputs.skip != 'true'
