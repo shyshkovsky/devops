@@ -1,198 +1,412 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Shyshkovsky — DevOps & Systems Engineer</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23060608'/><text x='50' y='73' font-size='64' font-family='Arial' font-weight='bold' fill='%23ff3d00' text-anchor='middle'>S</text></svg>">
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Just Us ♡</title>
+<meta name="description" content="Our private space">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>♡</text></svg>">
 </head>
 <body>
 
-  <!-- NAV -->
-  <nav class="nav" id="nav">
-    <span class="nav-logo">Shyshkovsky</span>
-    <ul class="nav-links">
-      <li><a href="#about"   data-i18n="nav_about">About</a></li>
-      <li><a href="#skills"  data-i18n="nav_skills">Skills</a></li>
-      <li><a href="#projects" data-i18n="nav_projects">Projects</a></li>
-      <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
-    </ul>
-    <div class="lang-switcher" id="langSwitcher">
-      <button class="lang-btn active" data-lang="en">EN</button>
-      <button class="lang-btn" data-lang="ua">UA</button>
-      <button class="lang-btn" data-lang="cs">CZ</button>
-      <button class="lang-btn" data-lang="pl">PL</button>
-      <button class="lang-btn" data-lang="de">DE</button>
+<!-- Lock Screen -->
+<div id="lockScreen" class="lock-screen">
+  <div class="lock-box">
+    <div class="lock-heart">♡</div>
+    <h1 class="lock-title">Just <em>Us</em></h1>
+    <p class="lock-sub">Private space — enter to continue</p>
+    <div class="lock-form">
+      <input type="password" id="lockInput" placeholder="passphrase..." autocomplete="off" />
+      <button onclick="unlock()">Enter ♡</button>
     </div>
-    <button class="nav-burger" id="burger">☰</button>
-  </nav>
+    <p class="lock-hint" id="lockHint"></p>
+  </div>
+</div>
 
-  <!-- HERO -->
-  <section class="hero" id="hero">
-    <div class="hero-noise"></div>
-    <div class="hero-grid-lines"></div>
-    <div class="hero-content">
-      <div class="hero-tag">
-        <span class="pulse-dot"></span>
-        <span data-i18n="hero_available">Available for work</span>
-      </div>
-      <h1 class="hero-name">
-        <span class="line-reveal">Oleksandr</span>
-        <span class="line-reveal delay-1"><em>Zhebchuk</em></span>
-      </h1>
-      <div class="hero-roles" id="heroRoles">
-        <span class="role-pill" data-i18n="role_devops">DevOps Engineer</span>
-        <span class="role-pill" data-i18n="role_sysadmin">Systems Administrator</span>
-        <span class="role-pill" data-i18n="role_python">Python Developer</span>
-        <span class="role-pill" data-i18n="role_helpdesk">IT Helpdesk L1–L3</span>
-        <span class="role-pill" data-i18n="role_cyber">Cybersecurity</span>
-      </div>
-      <p class="hero-desc" data-i18n="hero_desc">
-        I build, automate, and secure infrastructure. From bare-metal server configuration to containerised CI/CD pipelines — I make systems work reliably.
-      </p>
-      <div class="hero-cta">
-        <a href="#projects" class="btn-primary" data-i18n="hero_cta_work">See my work</a>
-        <a href="#contact"  class="btn-ghost"   data-i18n="hero_cta_contact">Get in touch</a>
-      </div>
-    </div>
-    <div class="hero-terminal" id="terminal">
-      <div class="terminal-bar">
-        <span class="t-dot red"></span><span class="t-dot yellow"></span><span class="t-dot green"></span>
-        <span class="t-title">shyshkovsky@server:~</span>
-      </div>
-      <div class="terminal-body" id="termBody"></div>
-    </div>
-  </section>
+<!-- Main App -->
+<div id="app" class="app hidden">
 
-  <!-- ABOUT -->
-  <section class="about reveal-section" id="about">
-    <div class="section-label">01 / <span data-i18n="nav_about">About</span></div>
-    <div class="about-grid">
-      <div class="about-left reveal-child">
-        <h2 class="section-title" data-i18n="about_title">Who I am</h2>
-        <p data-i18n="about_p1">I'm a systems-minded engineer based in Czech Republic with hands-on experience across the full IT stack — from plugging in network cables to writing Python automation scripts and deploying containerised applications.</p>
-        <p data-i18n="about_p2">My background spans IT helpdesk (L1–L3), network administration with Cisco and MikroTik, VPN and VLAN configuration, server and user service management, and cybersecurity fundamentals. More recently I've been pushing into DevOps — building CI/CD pipelines, working with Docker, and getting comfortable with cloud infrastructure.</p>
-        <p data-i18n="about_p3">I learn fast, document everything, and care about making systems that actually work in production — not just on my machine.</p>
-      </div>
-      <div class="about-right reveal-child delay-2">
-        <div class="stat-card"><div class="stat-num">L1–L3</div><div class="stat-label" data-i18n="stat_helpdesk">Helpdesk experience</div></div>
-        <div class="stat-card accent"><div class="stat-num">CI/CD</div><div class="stat-label" data-i18n="stat_cicd">Automated pipelines</div></div>
-        <div class="stat-card"><div class="stat-num">Cisco</div><div class="stat-label" data-i18n="stat_cisco">+ MikroTik networking</div></div>
-        <div class="stat-card accent2"><div class="stat-num">Docker</div><div class="stat-label" data-i18n="stat_docker">Containerised deployments</div></div>
-      </div>
-    </div>
-  </section>
+  <div class="wrap">
+    <header>
+      <div class="heart-deco">♡ &nbsp; private &nbsp; ♡</div>
+      <h1>Just <em>Us</em></h1>
+      <p class="since">Together since <span id="sinceDisplay">—</span> &nbsp;·&nbsp; <span id="daysTogether">0</span> days of love</p>
+      <button class="settings-btn" onclick="openSettings()" title="Settings">⚙</button>
+    </header>
 
-  <!-- SKILLS -->
-  <section class="skills reveal-section" id="skills">
-    <div class="section-label">02 / <span data-i18n="nav_skills">Skills</span></div>
-    <h2 class="section-title reveal-child" data-i18n="skills_title">What I work with</h2>
-    <div class="skills-grid">
-      <div class="skill-group reveal-child">
-        <div class="skill-group-title" data-i18n="skills_devops">DevOps & Cloud</div>
-        <div class="skill-tags">
-          <span class="stag">Docker</span><span class="stag">Docker Compose</span>
-          <span class="stag">GitHub Actions</span><span class="stag">CI/CD</span>
-          <span class="stag">Nginx</span><span class="stag">AWS EC2</span><span class="stag">Linux</span>
-        </div>
+    <nav>
+      <button class="tab active" data-tab="memories">📷 Memories</button>
+      <button class="tab" data-tab="notes">✉️ Notes</button>
+      <button class="tab" data-tab="dates">💍 Our Dates</button>
+      <button class="tab" data-tab="wishlist">✨ Wishlist</button>
+      <button class="tab" data-tab="letter">💌 Love Letter</button>
+      <button class="tab" data-tab="playlist">🎵 Our Songs</button>
+      <button class="tab" data-tab="places">🗺 Places</button>
+    </nav>
+
+    <!-- MEMORIES -->
+    <div class="section active" id="sec-memories">
+      <div class="upload-zone" id="uploadZone">
+        <h3>Drop your memories here</h3>
+        <p>Photos & videos — just for the two of you</p>
+        <button class="btn-rose" id="uploadBtn">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          Add Photos & Videos
+        </button>
+        <input type="file" id="fileInput" accept="image/*,video/*" multiple>
       </div>
-      <div class="skill-group reveal-child delay-1">
-        <div class="skill-group-title" data-i18n="skills_dev">Development</div>
-        <div class="skill-tags">
-          <span class="stag">Python</span><span class="stag">FastAPI</span>
-          <span class="stag">REST APIs</span><span class="stag">Git</span>
-          <span class="stag">Bash scripting</span><span class="stag">pytest</span>
+      <div class="memories-grid" id="memoriesGrid">
+        <div class="memory-card">
+          <div class="memory-placeholder tall">
+            <svg width="28" height="28" fill="none" stroke="#c9738a" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <span>Your photo here</span>
+          </div>
+          <div class="memory-info"><h3>First date 🌙</h3><p>Click above to add</p></div>
         </div>
-      </div>
-      <div class="skill-group reveal-child delay-2">
-        <div class="skill-group-title" data-i18n="skills_network">Networking</div>
-        <div class="skill-tags">
-          <span class="stag">Cisco</span><span class="stag">MikroTik</span>
-          <span class="stag">VPN</span><span class="stag">VLAN</span>
-          <span class="stag">TCP/IP</span><span class="stag">Firewall</span><span class="stag">DNS</span>
+        <div class="memory-card">
+          <div class="memory-placeholder">
+            <svg width="28" height="28" fill="none" stroke="#c9738a" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <span>Your photo here</span>
+          </div>
+          <div class="memory-info"><h3>Weekend trip ✈️</h3><p>Click above to add</p></div>
         </div>
-      </div>
-      <div class="skill-group reveal-child delay-3">
-        <div class="skill-group-title" data-i18n="skills_sys">Systems & Security</div>
-        <div class="skill-tags">
-          <span class="stag">Windows Server</span><span class="stag">Ubuntu</span>
-          <span class="stag">Hyper-V</span><span class="stag">Active Directory</span>
-          <span class="stag">Cybersecurity</span><span class="stag">SSL/TLS</span>
+        <div class="memory-card">
+          <div class="memory-placeholder">
+            <svg width="28" height="28" fill="none" stroke="#c9738a" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <span>Your photo here</span>
+          </div>
+          <div class="memory-info"><h3>Just us 💕</h3><p>Click above to add</p></div>
         </div>
       </div>
     </div>
-  </section>
 
-  <!-- PROJECTS -->
-  <section class="projects reveal-section" id="projects">
-    <div class="section-label">03 / <span data-i18n="nav_projects">Projects</span></div>
-    <h2 class="section-title reveal-child" data-i18n="projects_title">Things I've built</h2>
-    <div class="projects-grid">
-      <div class="project-card featured reveal-child">
-        <div class="project-num">01</div>
-        <div class="project-tag" data-i18n="proj1_tag">DevOps · Python · Docker</div>
-        <h3 data-i18n="proj1_title">Portfolio CI/CD Pipeline</h3>
-        <p data-i18n="proj1_desc">This site. Built from scratch as a hands-on DevOps project — FastAPI backend, static HTML/CSS frontend, Nginx reverse proxy, all containerised with Docker Compose. Fully automated CI/CD pipeline via GitHub Actions: pytest runs on every push, Docker image builds, and the server redeploys automatically on green CI.</p>
-        <div class="project-stack">
-          <span>FastAPI</span><span>Nginx</span><span>Docker</span><span>GitHub Actions</span><span>AWS EC2</span>
-        </div>
-        <div class="project-links">
-          <a href="https://github.com/shyshkovsky/devops" target="_blank" class="plink" data-i18n="proj_github">GitHub →</a>
+    <!-- NOTES -->
+    <div class="section" id="sec-notes">
+      <div class="note-compose">
+        <input type="text" id="noteTitle" placeholder="Title..." />
+        <textarea id="noteBody" placeholder="Write something sweet..."></textarea>
+        <div class="compose-actions">
+          <button class="btn-ghost" onclick="saveNote()">Save note ♡</button>
         </div>
       </div>
-      <div class="project-card reveal-child delay-1">
-        <div class="project-num">02</div>
-        <div class="project-tag" data-i18n="proj2_tag">Networking · Systems</div>
-        <h3 data-i18n="proj2_title">Network Infrastructure Setup</h3>
-        <p data-i18n="proj2_desc">Designed and configured enterprise network infrastructure including VLAN segmentation, VPN tunnels, firewall rules, and routing on Cisco and MikroTik hardware. Managed user access, server services, and ensured uptime across the environment.</p>
-        <div class="project-stack">
-          <span>Cisco</span><span>MikroTik</span><span>VLAN</span><span>VPN</span><span>Linux</span>
+      <div class="notes-layout" id="notesGrid">
+        <div class="note-card pinned">
+          <div class="note-tag">📌 pinned</div>
+          <h3>Why I love you — a running list</h3>
+          <p>The way you laugh at your own jokes before the punchline. The face you make when you're concentrating. The fact that you always remember how I take my coffee...</p>
+          <div class="note-meta">Always & forever</div>
         </div>
-      </div>
-      <div class="project-card reveal-child delay-2">
-        <div class="project-num">03</div>
-        <div class="project-tag" data-i18n="proj3_tag">Python · Automation</div>
-        <h3 data-i18n="proj3_title">IT Helpdesk Automation</h3>
-        <p data-i18n="proj3_desc">Python scripts built during L1–L3 helpdesk work to automate repetitive tasks — user account provisioning, log parsing, service monitoring, and alerting. Reduced manual workload and improved response times across the support workflow.</p>
-        <div class="project-stack">
-          <span>Python</span><span>Bash</span><span>Windows Server</span><span>Active Directory</span>
+        <div class="note-card">
+          <div class="note-tag">🌙 night thought</div>
+          <h3>Things I want to do with you someday</h3>
+          <p>Watch the sunrise from a mountain. Get lost somewhere beautiful. Dance in the kitchen at 2am. Grow old together. All of it.</p>
+          <div class="note-meta">Just now</div>
         </div>
       </div>
     </div>
-  </section>
 
-  <!-- CONTACT -->
-  <section class="contact reveal-section" id="contact">
-    <div class="section-label">04 / <span data-i18n="nav_contact">Contact</span></div>
-    <div class="contact-inner">
-      <h2 class="section-title reveal-child" data-i18n="contact_title">Let's work together</h2>
-      <p class="contact-sub reveal-child delay-1" data-i18n="contact_sub">Open to DevOps, sysadmin, or Python developer roles. Drop me a message.</p>
-      <div class="contact-links reveal-child delay-2">
-        <a href="mailto:your@email.com" class="contact-item">
-          <span class="ci-label">Email</span>
-          <span class="ci-val">kinagshyshkovsy@gmail.com</span>
-        </a>
-        <a href="https://github.com/shyshkovsky" target="_blank" class="contact-item">
-          <span class="ci-label">GitHub</span>
-          <span class="ci-val">github.com/shyshkovsky</span>
-        </a>
-        <a href="https://linkedin.com/in/yourprofile" target="_blank" class="contact-item">
-          <span class="ci-label">LinkedIn</span>
-          <span class="ci-val">linkedin.com/in/shyshkovsky</span>
-        </a>
+    <!-- DATES -->
+    <div class="section" id="sec-dates">
+      <div class="dates-hero">
+        <div class="countdown-label">until our wedding</div>
+        <div class="countdown-row">
+          <div class="cd-unit"><div class="cd-num" id="cdDays">—</div><div class="cd-lbl">days</div></div>
+          <div class="cd-sep">·</div>
+          <div class="cd-unit"><div class="cd-num" id="cdHours">—</div><div class="cd-lbl">hours</div></div>
+          <div class="cd-sep">·</div>
+          <div class="cd-unit"><div class="cd-num" id="cdMins">—</div><div class="cd-lbl">mins</div></div>
+          <div class="cd-sep">·</div>
+          <div class="cd-unit"><div class="cd-num" id="cdSecs">—</div><div class="cd-lbl">secs</div></div>
+        </div>
+        <div class="dates-subtitle" id="weddingDateDisplay">Set your wedding date below ♡</div>
+      </div>
+
+      <div class="date-inputs">
+        <div>
+          <label>Together since</label>
+          <input type="date" id="startDate" onchange="updateDates()">
+        </div>
+        <div>
+          <label>Wedding date</label>
+          <input type="date" id="weddingDate" onchange="updateWedding()">
+        </div>
+        <div>
+          <label>Your birthday</label>
+          <input type="date" id="bdayInput1" onchange="updateBdays()">
+        </div>
+        <div>
+          <label>Their birthday</label>
+          <input type="date" id="bdayInput2" onchange="updateBdays()">
+        </div>
+      </div>
+
+      <div class="special-dates-grid">
+        <div class="date-item">
+          <div class="date-icon">💍</div>
+          <div>
+            <h4>Engagement</h4>
+            <p>The beginning of forever</p>
+          </div>
+        </div>
+        <div class="date-item">
+          <div class="date-icon">🎂</div>
+          <div>
+            <h4>Your birthday</h4>
+            <p id="bday1">Set above</p>
+            <div class="days-away" id="bday1Days">—</div>
+          </div>
+        </div>
+        <div class="date-item">
+          <div class="date-icon">🎂</div>
+          <div>
+            <h4>Their birthday</h4>
+            <p id="bday2">Set above</p>
+            <div class="days-away" id="bday2Days">—</div>
+          </div>
+        </div>
+        <div class="date-item">
+          <div class="date-icon">✈️</div>
+          <div>
+            <h4>Honeymoon</h4>
+            <p>Something magical awaits</p>
+          </div>
+        </div>
       </div>
     </div>
-  </section>
 
-  <footer class="footer">
-    <span>© 2026 Shyshkovsky</span>
-    <span data-i18n="footer_built">Built with FastAPI · Docker · GitHub Actions</span>
+    <!-- WISHLIST -->
+    <div class="section" id="sec-wishlist">
+      <div class="section-toolbar">
+        <button class="btn-rose" onclick="openModal('wishModal')">+ Add wish</button>
+      </div>
+      <div class="wish-grid" id="wishGrid">
+        <div class="wish-card">
+          <div class="wish-emoji">🏔️</div>
+          <h3>Weekend in the mountains</h3>
+          <p>Cozy cabin, fireplace, just us and the snow.</p>
+          <div class="wish-footer">
+            <span class="wish-who">Both of us</span>
+            <span class="wish-status planned">Planned</span>
+          </div>
+        </div>
+        <div class="wish-card">
+          <div class="wish-emoji">🍜</div>
+          <h3>Ramen tour of Japan</h3>
+          <p>Eat our way from Tokyo to Kyoto.</p>
+          <div class="wish-footer">
+            <span class="wish-who">Our dream</span>
+            <span class="wish-status dream">Dream</span>
+          </div>
+        </div>
+        <div class="wish-card">
+          <div class="wish-emoji">🎭</div>
+          <h3>Broadway show</h3>
+          <p>Dressed up, fancy dinner before, the full evening.</p>
+          <div class="wish-footer">
+            <span class="wish-who">Date night</span>
+            <span class="wish-status done">Done ✓</span>
+          </div>
+        </div>
+        <div class="wish-card">
+          <div class="wish-emoji">🌅</div>
+          <h3>Watch sunrise together</h3>
+          <p>Pick a beautiful spot and set that alarm.</p>
+          <div class="wish-footer">
+            <span class="wish-who">Someday</span>
+            <span class="wish-status dream">Dream</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LOVE LETTER -->
+    <div class="section" id="sec-letter">
+      <div class="letter-wrap">
+        <div class="letter-card">
+          <div class="letter-header">A letter to you, my love — <span id="letterDate"></span></div>
+          <textarea id="letterText" placeholder="My darling,&#10;&#10;Every single day I think about how lucky I am..."></textarea>
+          <div class="letter-actions">
+            <button class="btn-ghost" onclick="saveLetter()">Save letter ♡</button>
+            <button class="btn-rose" onclick="sendLetter()">Send with love ♡</button>
+          </div>
+        </div>
+        <div id="savedLetters"></div>
+      </div>
+    </div>
+
+    <!-- PLAYLIST -->
+    <div class="section" id="sec-playlist">
+      <div class="playlist-card">
+        <div class="playlist-header">
+          <div class="playlist-icon">🎶</div>
+          <div>
+            <h2>Our Soundtrack</h2>
+            <p>Songs that are ours — forever</p>
+          </div>
+        </div>
+        <ul class="song-list" id="songList">
+          <li class="song-item">
+            <div class="song-num">1</div>
+            <div class="song-info">
+              <h4>Perfect — Ed Sheeran</h4>
+              <p>Divide · 2017</p>
+              <div class="song-meaning">Our first dance song 💕</div>
+            </div>
+            <div class="song-dur">4:23</div>
+          </li>
+          <li class="song-item">
+            <div class="song-num">2</div>
+            <div class="song-info">
+              <h4>Can't Help Falling in Love</h4>
+              <p>Elvis Presley</p>
+              <div class="song-meaning">Playing when we first kissed ✨</div>
+            </div>
+            <div class="song-dur">3:01</div>
+          </li>
+          <li class="song-item">
+            <div class="song-num">3</div>
+            <div class="song-info">
+              <h4>All of Me — John Legend</h4>
+              <p>Love in the Future</p>
+              <div class="song-meaning">This one is just you</div>
+            </div>
+            <div class="song-dur">4:29</div>
+          </li>
+        </ul>
+        <div class="playlist-footer">
+          <button class="btn-ghost" onclick="openModal('songModal')">+ Add a song</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PLACES -->
+    <div class="section" id="sec-places">
+      <div class="places-grid" id="placesGrid">
+        <div class="place-card">
+          <div class="place-thumb">🌆</div>
+          <div class="place-info">
+            <h3>Where we met</h3>
+            <p>The exact spot. That moment. Forever imprinted.</p>
+            <div class="place-tag">📍 The beginning</div>
+          </div>
+        </div>
+        <div class="place-card">
+          <div class="place-thumb">🌊</div>
+          <div class="place-info">
+            <h3>Dream honeymoon</h3>
+            <p>Somewhere warm, beautiful, just the two of us.</p>
+            <div class="place-tag">✈️ Someday</div>
+          </div>
+        </div>
+        <div class="place-card">
+          <div class="place-thumb">🏠</div>
+          <div class="place-info">
+            <h3>Our first home</h3>
+            <p>Where our story really begins.</p>
+            <div class="place-tag">🔑 Home</div>
+          </div>
+        </div>
+        <div class="place-card add-place-card" onclick="openModal('placeModal')">
+          <div class="place-thumb add-icon">
+            <svg width="32" height="32" fill="none" stroke="#c9738a" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+          </div>
+          <div class="place-info">
+            <h3>Add a place</h3>
+            <p>Anywhere that means something to you two.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /wrap -->
+
+  <footer>
+    <div>♡ &nbsp; Private &nbsp; · &nbsp; Secure &nbsp; · &nbsp; Just for two &nbsp; ♡</div>
+    <div style="margin-top:6px;">Made with love</div>
   </footer>
 
-  <script src="main.js"></script>
+</div><!-- /app -->
+
+<!-- Settings Modal -->
+<div class="modal-overlay" id="settingsModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('settingsModal')">✕</button>
+    <h2>Settings ⚙</h2>
+    <label>Your names</label>
+    <div style="display:flex;gap:8px;">
+      <input type="text" id="name1" placeholder="Your name">
+      <input type="text" id="name2" placeholder="Their name">
+    </div>
+    <label>Passphrase (to protect your space)</label>
+    <input type="password" id="newPassphrase" placeholder="New passphrase...">
+    <label>Site title</label>
+    <input type="text" id="siteTitle" placeholder="Just Us">
+    <div style="display:flex;justify-content:flex-end;margin-top:20px;">
+      <button class="btn-rose" onclick="saveSettings()">Save ♡</button>
+    </div>
+  </div>
+</div>
+
+<!-- Wish Modal -->
+<div class="modal-overlay" id="wishModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('wishModal')">✕</button>
+    <h2>Add a wish ✨</h2>
+    <label>Title</label>
+    <input type="text" id="wishTitle" placeholder="Weekend cabin escape...">
+    <label>Description</label>
+    <textarea id="wishDesc" placeholder="More details..."></textarea>
+    <label>Emoji</label>
+    <input type="text" id="wishEmoji" placeholder="🌄" maxlength="2">
+    <label>Status</label>
+    <select id="wishStatusSel">
+      <option value="dream">Dream</option>
+      <option value="planned">Planned</option>
+      <option value="done">Done ✓</option>
+    </select>
+    <div style="display:flex;justify-content:flex-end;margin-top:20px;">
+      <button class="btn-rose" onclick="addWish()">Add to wishlist ♡</button>
+    </div>
+  </div>
+</div>
+
+<!-- Song Modal -->
+<div class="modal-overlay" id="songModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('songModal')">✕</button>
+    <h2>Add a song 🎵</h2>
+    <label>Song & Artist</label>
+    <input type="text" id="songName" placeholder="Perfect — Ed Sheeran">
+    <label>What it means to you</label>
+    <input type="text" id="songMeaning" placeholder="Our first dance song...">
+    <div style="display:flex;justify-content:flex-end;margin-top:20px;">
+      <button class="btn-rose" onclick="addSong()">Add to playlist ♡</button>
+    </div>
+  </div>
+</div>
+
+<!-- Place Modal -->
+<div class="modal-overlay" id="placeModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('placeModal')">✕</button>
+    <h2>Add a place 📍</h2>
+    <label>Place name</label>
+    <input type="text" id="placeName" placeholder="Where we had our first date...">
+    <label>Description</label>
+    <textarea id="placeDesc" placeholder="What makes this place special..."></textarea>
+    <label>Emoji</label>
+    <input type="text" id="placeEmoji" placeholder="🏖️" maxlength="2">
+    <div style="display:flex;justify-content:flex-end;margin-top:20px;">
+      <button class="btn-rose" onclick="addPlace()">Save place ♡</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
 </body>
 </html>
