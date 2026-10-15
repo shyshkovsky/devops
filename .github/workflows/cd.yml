@@ -5,44 +5,76 @@ on:
     workflows: [CI]
     types: [completed]
     branches: [main]
+  workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     environment: production
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main') || (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main') }}
 
     permissions:
       contents: read
+      id-token: write
+
+    env:
+      GCP_PROJECT_ID: ${{ vars.GCP_PROJECT_ID }}
+      GCP_ZONE: ${{ vars.GCP_ZONE }}
+      GCP_INSTANCE: ${{ vars.GCP_INSTANCE }}
+      GCP_WORKLOAD_IDENTITY_PROVIDER: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+      GCP_DEPLOY_SERVICE_ACCOUNT: ${{ vars.GCP_DEPLOY_SERVICE_ACCOUNT }}
 
     steps:
-      - name: Check deployment secrets
+      - name: Check deployment settings
         id: check
-        env:
-          SERVER_USER: ${{ secrets.SERVER_USER }}
-          SERVER_SSH_KEY: ${{ secrets.SERVER_SSH_KEY }}
         run: |
-          if [ -z "$SERVER_USER" ] || [ -z "$SERVER_SSH_KEY" ]; then
-            echo "SSH deployment secrets are missing; skipping deploy"
+          missing=0
+          for name in GCP_PROJECT_ID GCP_ZONE GCP_INSTANCE GCP_WORKLOAD_IDENTITY_PROVIDER GCP_DEPLOY_SERVICE_ACCOUNT; do
+            if [ -z "${!name}" ]; then
+              echo "Missing GitHub Environment variable: $name"
+              missing=1
+            fi
+          done
+          if [ "$missing" -eq 1 ]; then
             echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "::notice::Configure the production environment variables before deploying."
           fi
 
-      - name: Check server SSH reachability
+      - name: Authenticate to Google Cloud
+        if: steps.check.outputs.skip != 'true'
+        uses: google-github-actions/auth@v3
+        with:
+          workload_identity_provider: ${{ env.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ env.GCP_DEPLOY_SERVICE_ACCOUNT }}
+
+      - name: Set up Google Cloud CLI
+        if: steps.check.outputs.skip != 'true'
+        uses: google-github-actions/setup-gcloud@v3
+        with:
+          project_id: ${{ env.GCP_PROJECT_ID }}
+
+      - name: Create temporary OS Login SSH key
+        id: oslogin_key
         if: steps.check.outputs.skip != 'true'
         run: |
-          getent ahostsv4 shyshka.duckdns.org
-          timeout 10 bash -c 'cat < /dev/null > /dev/tcp/shyshka.duckdns.org/22'
+          ssh-keygen -q -t rsa -b 3072 -N '' -f "$RUNNER_TEMP/oslogin_deploy_key"
+          gcloud compute os-login ssh-keys add \
+            --key-file="$RUNNER_TEMP/oslogin_deploy_key.pub" \
+            --ttl=10m
 
-      - name: Deploy to server
+      - name: Deploy through OS Login
         if: steps.check.outputs.skip != 'true'
-        uses: appleboy/ssh-action@v1
-        with:
-          host: shyshka.duckdns.org
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
-          timeout: 30s
-          command_timeout: 10m
-          script: |
-            cd ~/devops-demo
-            git pull origin main
-            docker compose up --build -d
+        run: |
+          gcloud compute ssh "$GCP_INSTANCE" \
+            --project="$GCP_PROJECT_ID" \
+            --zone="$GCP_ZONE" \
+            --ssh-key-file="$RUNNER_TEMP/oslogin_deploy_key" \
+            --quiet \
+            --command='cd ~/devops-demo && git pull origin main && sudo docker compose up --build -d'
+
+      - name: Remove temporary OS Login SSH key
+        if: always() && steps.oslogin_key.outcome == 'success'
+        run: |
+          gcloud compute os-login ssh-keys remove \
+            --key-file="$RUNNER_TEMP/oslogin_deploy_key.pub" \
+            --quiet || true
