@@ -4,18 +4,19 @@ const i18n = {
     nav_about: "About", nav_skills: "Skills", nav_projects: "Projects", nav_contact: "Contact",
     hero_available: "Available for work",
     role_devops: "DevOps Engineer", role_sysadmin: "Systems Administrator",
-    role_python: "Python Developer", role_helpdesk: "IT Helpdesk L1–L3", role_cyber: "Cybersecurity",
-    hero_desc: "I build, automate, and secure infrastructure. From bare-metal server configuration to containerised CI/CD pipelines — I make systems work reliably.",
+    role_python: "Windows · macOS · Microsoft 365", role_helpdesk: "IT Support Specialist", role_cyber: "Networking & Connectivity",
+    hero_desc: "I help people get their technology working. I support users and devices, troubleshoot Windows, macOS and network issues, and keep business systems reliable.",
     hero_cta_work: "See my work", hero_cta_contact: "Get in touch",
     about_title: "Who I am",
-    about_p1: "I'm a systems-minded engineer based in Czech Republic with hands-on experience across the full IT stack — from plugging in network cables to writing Python automation scripts and deploying containerised applications.",
-    about_p2: "My background spans IT helpdesk (L1–L3), network administration with Cisco and MikroTik, VPN and VLAN configuration, server and user service management, and cybersecurity fundamentals. More recently I've been pushing into DevOps — building CI/CD pipelines, working with Docker, and getting comfortable with cloud infrastructure.",
+    about_p1: "I'm an IT support specialist based in Brno, Czech Republic, with 2+ years of enterprise IT experience. I help colleagues resolve everyday hardware, software, account and connectivity issues across Windows and macOS environments.",
+    about_p2: "My hands-on work includes L1–L3 support, laptop and peripheral setup, Microsoft 365, Active Directory, DNS/DHCP, LAN/WAN troubleshooting and network administration with Cisco and MikroTik. I also automate routine support tasks with Python and maintain servers, VoIP and security systems.",
     about_p3: "I learn fast, document everything, and care about making systems that actually work in production — not just on my machine.",
     stat_helpdesk: "Helpdesk experience", stat_cicd: "Automated pipelines",
     stat_cisco: "+ MikroTik networking", stat_docker: "Containerised deployments",
     skills_title: "What I work with",
-    skills_devops: "DevOps & Cloud", skills_dev: "Development",
-    skills_network: "Networking", skills_sys: "Systems & Security",
+    skills_support: "IT Support & End-User Systems", skills_sys: "Systems Administration",
+    skills_devops: "DevOps & Cloud", skills_dev: "Development & Automation",
+    skills_network: "Networking",
     projects_title: "Things I've built",
     proj1_tag: "DevOps · Python · Docker", proj1_title: "Portfolio CI/CD Pipeline",
     proj1_desc: "This site. Built from scratch as a hands-on DevOps project — FastAPI backend, static HTML/CSS frontend, Nginx reverse proxy, all containerised with Docker Compose. Fully automated CI/CD pipeline via GitHub Actions: pytest runs on every push, Docker image builds, and the server redeploys automatically on green CI.",
@@ -25,26 +26,28 @@ const i18n = {
     proj3_desc: "Python scripts built during L1–L3 helpdesk work to automate repetitive tasks — user account provisioning, log parsing, service monitoring, and alerting. Reduced manual workload and improved response times across the support workflow.",
     proj_github: "GitHub →",
     contact_title: "Let's work together",
-    contact_sub: "Open to DevOps, sysadmin, or Python developer roles. Drop me a message.",
+    contact_sub: "Based in Brno and open to IT support and systems administration roles. Choose a channel and get in touch.",
+    contact_fab: "Contact me", contact_choose: "Choose a channel", contact_phone: "Phone",
     footer_built: "Built with FastAPI · Docker · GitHub Actions"
   },
 
   ua: {
     nav_about: "Про мене", nav_skills: "Навички", nav_projects: "Проєкти", nav_contact: "Контакт",
     hero_available: "Відкритий до роботи",
-    role_devops: "DevOps Інженер", role_sysadmin: "Системний Адміністратор",
-    role_python: "Python Розробник", role_helpdesk: "IT Підтримка L1–L3", role_cyber: "Кібербезпека",
-    hero_desc: "Я будую, автоматизую та захищаю інфраструктуру. Від налаштування серверів до контейнеризованих CI/CD пайплайнів — я роблю системи надійними.",
+    role_devops: "DevOps-інженер", role_sysadmin: "Системний адміністратор",
+    role_python: "Windows · macOS · Microsoft 365", role_helpdesk: "Фахівець IT-підтримки", role_cyber: "Мережі та зв’язок",
+    hero_desc: "Допомагаю людям ефективно користуватися технікою: підтримую користувачів і пристрої, діагностую проблеми Windows, macOS та мереж і дбаю про стабільність систем.",
     hero_cta_work: "Мої проєкти", hero_cta_contact: "Написати мені",
     about_title: "Хто я",
-    about_p1: "Я інженер з системним мисленням, що базується в Чехії. Маю практичний досвід у повному IT-стеку — від підключення мережевого обладнання до написання скриптів автоматизації на Python та розгортання контейнеризованих застосунків.",
-    about_p2: "Мій досвід охоплює IT-підтримку (L1–L3), адміністрування мереж Cisco та MikroTik, налаштування VPN та VLAN, управління серверами та користувачами, а також основи кібербезпеки. Останнім часом я активно розвиваюся в напрямку DevOps — будую CI/CD пайплайни, працюю з Docker та хмарною інфраструктурою.",
+    about_p1: "Я фахівець з IT-підтримки з Брно, Чехія, маю понад два роки досвіду в корпоративному IT. Допомагаю колегам вирішувати щоденні проблеми з обладнанням, програмами, обліковими записами та підключенням у Windows і macOS.",
+    about_p2: "Маю практичний досвід підтримки L1–L3, підготовки ноутбуків і периферії, Microsoft 365, Active Directory, DNS/DHCP, діагностики LAN/WAN та адміністрування мереж Cisco і MikroTik. Також автоматизую рутинні задачі підтримки на Python та обслуговую сервери, VoIP і системи безпеки.",
     about_p3: "Швидко навчаюся, документую все і прагну створювати системи, які справді працюють в production — а не лише на моїй машині.",
     stat_helpdesk: "Досвід підтримки", stat_cicd: "Автоматизовані пайплайни",
     stat_cisco: "+ Мережі MikroTik", stat_docker: "Контейнеризовані деплої",
     skills_title: "З чим я працюю",
-    skills_devops: "DevOps та Хмара", skills_dev: "Розробка",
-    skills_network: "Мережі", skills_sys: "Системи та Безпека",
+    skills_support: "IT-підтримка та робочі пристрої", skills_sys: "Системне адміністрування",
+    skills_devops: "DevOps та хмара", skills_dev: "Розробка та автоматизація",
+    skills_network: "Мережі",
     projects_title: "Що я побудував",
     proj1_tag: "DevOps · Python · Docker", proj1_title: "CI/CD Пайплайн Портфоліо",
     proj1_desc: "Цей сайт. Побудований з нуля як практичний DevOps-проєкт — FastAPI бекенд, статичний HTML/CSS фронтенд, Nginx зворотній проксі, все контейнеризовано в Docker Compose. Повністю автоматизований CI/CD через GitHub Actions.",
@@ -54,26 +57,28 @@ const i18n = {
     proj3_desc: "Python-скрипти для автоматизації рутинних завдань під час роботи в L1–L3 підтримці — створення облікових записів, парсинг логів, моніторинг сервісів та сповіщення.",
     proj_github: "GitHub →",
     contact_title: "Давайте працювати разом",
-    contact_sub: "Розглядаю позиції DevOps, системного адміністратора або Python-розробника.",
+    contact_sub: "Знаходжуся в Брно та розглядаю позиції в IT-підтримці й системному адмініструванні. Оберіть зручний спосіб зв’язку.",
+    contact_fab: "Зв’язатися", contact_choose: "Оберіть спосіб зв’язку", contact_phone: "Телефон",
     footer_built: "Побудовано з FastAPI · Docker · GitHub Actions"
   },
 
   cs: {
     nav_about: "O mně", nav_skills: "Dovednosti", nav_projects: "Projekty", nav_contact: "Kontakt",
     hero_available: "Hledám práci",
-    role_devops: "DevOps Inženýr", role_sysadmin: "Správce systémů",
-    role_python: "Python Vývojář", role_helpdesk: "IT Podpora L1–L3", role_cyber: "Kybernetická bezpečnost",
-    hero_desc: "Buduju, automatizuji a zabezpečuji infrastrukturu. Od konfigurace serverů po kontejnerizované CI/CD pipeline — starám se o spolehlivé fungování systémů.",
+    role_devops: "DevOps Engineer", role_sysadmin: "Správce systémů",
+    role_python: "Windows · macOS · Microsoft 365", role_helpdesk: "Specialista IT podpory", role_cyber: "Sítě a konektivita",
+    hero_desc: "Pomáhám lidem používat technologie bez problémů. Podporuji uživatele a zařízení, řeším problémy ve Windows, macOS a sítích a udržuji systémy spolehlivé.",
     hero_cta_work: "Moje projekty", hero_cta_contact: "Kontaktujte mě",
     about_title: "Kdo jsem",
-    about_p1: "Jsem inženýr se systémovým myšlením žijící v České republice. Mám praktické zkušenosti s celým IT stackem — od zapojení síťových kabelů po psaní automatizačních skriptů v Pythonu a nasazování kontejnerizovaných aplikací.",
-    about_p2: "Moje zkušenosti zahrnují IT podporu (L1–L3), správu sítí Cisco a MikroTik, konfiguraci VPN a VLAN, správu serverů a uživatelů a základy kybernetické bezpečnosti. V poslední době se věnuji DevOps — CI/CD pipeline, Docker a cloudová infrastruktura.",
+    about_p1: "Jsem specialista IT podpory z Brna s více než dvěma lety zkušeností v podnikovém IT. Pomáhám kolegům řešit běžné problémy s hardwarem, softwarem, účty a připojením ve Windows a macOS.",
+    about_p2: "Mám praktické zkušenosti s podporou L1–L3, přípravou notebooků a periferií, Microsoft 365, Active Directory, DNS/DHCP, diagnostikou LAN/WAN a správou sítí Cisco a MikroTik. Rutinní úkoly podpory také automatizuji v Pythonu a spravuji servery, VoIP a bezpečnostní systémy.",
     about_p3: "Rychle se učím, vše dokumentuji a záleží mi na systémech, které skutečně fungují v produkci.",
     stat_helpdesk: "Zkušenosti s podporou", stat_cicd: "Automatizované pipeline",
     stat_cisco: "+ Sítě MikroTik", stat_docker: "Kontejnerizované nasazení",
     skills_title: "S čím pracuji",
-    skills_devops: "DevOps a Cloud", skills_dev: "Vývoj",
-    skills_network: "Sítě", skills_sys: "Systémy a Bezpečnost",
+    skills_support: "IT podpora a zařízení uživatelů", skills_sys: "Správa systémů",
+    skills_devops: "DevOps a cloud", skills_dev: "Vývoj a automatizace",
+    skills_network: "Sítě",
     projects_title: "Co jsem vytvořil",
     proj1_tag: "DevOps · Python · Docker", proj1_title: "CI/CD Pipeline Portfolia",
     proj1_desc: "Tento web. Postaven od základu jako praktický DevOps projekt — FastAPI backend, statický HTML/CSS frontend, Nginx reverzní proxy, vše kontejnerizováno v Docker Compose. Plně automatizovaný CI/CD pipeline přes GitHub Actions.",
@@ -83,26 +88,28 @@ const i18n = {
     proj3_desc: "Python skripty pro automatizaci opakujících se úkolů — vytváření účtů, parsování logů, monitoring služeb a upozornění. Snížení manuální práce a zlepšení doby odezvy.",
     proj_github: "GitHub →",
     contact_title: "Pojďme spolupracovat",
-    contact_sub: "Hledám pozice DevOps, správce systémů nebo Python vývojáře.",
+    contact_sub: "Působím v Brně a hledám pozice v IT podpoře a správě systémů. Vyberte si způsob kontaktu.",
+    contact_fab: "Kontaktovat", contact_choose: "Vyberte způsob kontaktu", contact_phone: "Telefon",
     footer_built: "Postaveno s FastAPI · Docker · GitHub Actions"
   },
 
   pl: {
     nav_about: "O mnie", nav_skills: "Umiejętności", nav_projects: "Projekty", nav_contact: "Kontakt",
     hero_available: "Otwarty na pracę",
-    role_devops: "Inżynier DevOps", role_sysadmin: "Administrator Systemów",
-    role_python: "Programista Python", role_helpdesk: "IT Helpdesk L1–L3", role_cyber: "Cyberbezpieczeństwo",
-    hero_desc: "Buduję, automatyzuję i zabezpieczam infrastrukturę. Od konfiguracji serwerów po skonteneryzowane pipeline CI/CD — dbam o niezawodność systemów.",
+    role_devops: "Inżynier DevOps", role_sysadmin: "Administrator systemów",
+    role_python: "Windows · macOS · Microsoft 365", role_helpdesk: "Specjalista wsparcia IT", role_cyber: "Sieci i łączność",
+    hero_desc: "Pomagam ludziom sprawnie korzystać z technologii. Wspieram użytkowników i urządzenia, rozwiązuję problemy z Windows, macOS i siecią oraz dbam o niezawodne systemy.",
     hero_cta_work: "Moje projekty", hero_cta_contact: "Skontaktuj się",
     about_title: "Kim jestem",
-    about_p1: "Jestem inżynierem z myśleniem systemowym mieszkającym w Czechach. Posiadam praktyczne doświadczenie w całym stosie IT — od podłączania kabli sieciowych po pisanie skryptów automatyzacji w Pythonie i wdrażanie skonteneryzowanych aplikacji.",
-    about_p2: "Moje doświadczenie obejmuje wsparcie IT (L1–L3), administrację sieciami Cisco i MikroTik, konfigurację VPN i VLAN, zarządzanie serwerami i użytkownikami oraz podstawy cyberbezpieczeństwa. Ostatnio rozwijam się w kierunku DevOps.",
+    about_p1: "Jestem specjalistą wsparcia IT z Brna, z ponad dwuletnim doświadczeniem w firmowym IT. Pomagam współpracownikom rozwiązywać codzienne problemy ze sprzętem, oprogramowaniem, kontami i łącznością w systemach Windows i macOS.",
+    about_p2: "Mam praktyczne doświadczenie we wsparciu L1–L3, przygotowaniu laptopów i urządzeń peryferyjnych, Microsoft 365, Active Directory, DNS/DHCP, diagnostyce LAN/WAN oraz administracji sieciami Cisco i MikroTik. Automatyzuję też rutynowe zadania wsparcia w Pythonie i obsługuję serwery, VoIP oraz systemy bezpieczeństwa.",
     about_p3: "Szybko się uczę, dokumentuję wszystko i zależy mi na systemach, które naprawdę działają na produkcji.",
     stat_helpdesk: "Doświadczenie wsparcia", stat_cicd: "Zautomatyzowane pipeline",
     stat_cisco: "+ Sieci MikroTik", stat_docker: "Wdrożenia kontenerowe",
     skills_title: "Z czym pracuję",
-    skills_devops: "DevOps i Chmura", skills_dev: "Programowanie",
-    skills_network: "Sieci", skills_sys: "Systemy i Bezpieczeństwo",
+    skills_support: "Wsparcie IT i urządzenia użytkowników", skills_sys: "Administracja systemami",
+    skills_devops: "DevOps i chmura", skills_dev: "Programowanie i automatyzacja",
+    skills_network: "Sieci",
     projects_title: "Co zbudowałem",
     proj1_tag: "DevOps · Python · Docker", proj1_title: "Pipeline CI/CD Portfolio",
     proj1_desc: "Ta strona. Zbudowana od podstaw jako projekt DevOps — backend FastAPI, statyczny frontend HTML/CSS, reverse proxy Nginx, wszystko skonteneryzowane w Docker Compose. W pełni zautomatyzowany CI/CD przez GitHub Actions.",
@@ -112,7 +119,8 @@ const i18n = {
     proj3_desc: "Skrypty Python do automatyzacji powtarzalnych zadań — tworzenie kont użytkowników, parsowanie logów, monitorowanie usług i powiadomienia. Zmniejszenie nakładu pracy i poprawa czasu reakcji.",
     proj_github: "GitHub →",
     contact_title: "Współpracujmy razem",
-    contact_sub: "Szukam stanowisk DevOps, administratora systemów lub programisty Python.",
+    contact_sub: "Mieszkam w Brnie i szukam pracy w obszarze wsparcia IT oraz administracji systemami. Wybierz dogodny sposób kontaktu.",
+    contact_fab: "Kontakt", contact_choose: "Wybierz sposób kontaktu", contact_phone: "Telefon",
     footer_built: "Zbudowane z FastAPI · Docker · GitHub Actions"
   },
 
@@ -120,18 +128,19 @@ const i18n = {
     nav_about: "Über mich", nav_skills: "Fähigkeiten", nav_projects: "Projekte", nav_contact: "Kontakt",
     hero_available: "Offen für Stellen",
     role_devops: "DevOps Engineer", role_sysadmin: "Systemadministrator",
-    role_python: "Python Entwickler", role_helpdesk: "IT Helpdesk L1–L3", role_cyber: "Cybersicherheit",
-    hero_desc: "Ich baue, automatisiere und sichere Infrastrukturen. Von der Server-Konfiguration bis zu containerisierten CI/CD-Pipelines — ich sorge für zuverlässige Systeme.",
+    role_python: "Windows · macOS · Microsoft 365", role_helpdesk: "IT-Support-Spezialist", role_cyber: "Netzwerke & Konnektivität",
+    hero_desc: "Ich helfe Menschen, ihre Technik zuverlässig zu nutzen. Ich unterstütze Anwender und Geräte, löse Probleme mit Windows, macOS und Netzwerken und halte Geschäftssysteme am Laufen.",
     hero_cta_work: "Meine Projekte", hero_cta_contact: "Kontakt aufnehmen",
     about_title: "Wer ich bin",
-    about_p1: "Ich bin ein systemorientierter Ingenieur mit Sitz in der Tschechischen Republik und praktischer Erfahrung im gesamten IT-Stack — vom Anschließen von Netzwerkkabeln bis zum Schreiben von Python-Automatisierungsskripten und Bereitstellen von containerisierten Anwendungen.",
-    about_p2: "Mein Hintergrund umfasst IT-Support (L1–L3), Netzwerkadministration mit Cisco und MikroTik, VPN- und VLAN-Konfiguration, Server- und Benutzerverwaltung sowie Grundlagen der Cybersicherheit. In letzter Zeit entwickle ich mich im Bereich DevOps weiter.",
+    about_p1: "Ich bin IT-Support-Spezialist aus Brünn mit mehr als zwei Jahren Erfahrung in der Unternehmens-IT. Ich helfe Kolleginnen und Kollegen bei alltäglichen Hardware-, Software-, Konto- und Verbindungsproblemen unter Windows und macOS.",
+    about_p2: "Meine praktische Erfahrung umfasst L1–L3-Support, die Einrichtung von Laptops und Peripheriegeräten, Microsoft 365, Active Directory, DNS/DHCP, LAN/WAN-Diagnose und die Netzwerkverwaltung mit Cisco und MikroTik. Außerdem automatisiere ich Support-Aufgaben mit Python und betreue Server, VoIP und Sicherheitssysteme.",
     about_p3: "Ich lerne schnell, dokumentiere alles und kümmere mich um Systeme, die tatsächlich in der Produktion funktionieren.",
     stat_helpdesk: "Helpdesk-Erfahrung", stat_cicd: "Automatisierte Pipelines",
     stat_cisco: "+ MikroTik Netzwerke", stat_docker: "Containerisierte Deployments",
     skills_title: "Womit ich arbeite",
-    skills_devops: "DevOps & Cloud", skills_dev: "Entwicklung",
-    skills_network: "Netzwerke", skills_sys: "Systeme & Sicherheit",
+    skills_support: "IT-Support & Endgeräte", skills_sys: "Systemadministration",
+    skills_devops: "DevOps & Cloud", skills_dev: "Entwicklung & Automatisierung",
+    skills_network: "Netzwerke",
     projects_title: "Was ich gebaut habe",
     proj1_tag: "DevOps · Python · Docker", proj1_title: "Portfolio CI/CD-Pipeline",
     proj1_desc: "Diese Website. Von Grund auf als praktisches DevOps-Projekt entwickelt — FastAPI-Backend, statisches HTML/CSS-Frontend, Nginx-Reverse-Proxy, alles containerisiert mit Docker Compose. Vollständig automatisierte CI/CD-Pipeline über GitHub Actions.",
@@ -141,7 +150,8 @@ const i18n = {
     proj3_desc: "Python-Skripte zur Automatisierung wiederkehrender Aufgaben — Benutzerkontenverwaltung, Log-Parsing, Service-Monitoring und Benachrichtigungen. Reduzierung des manuellen Aufwands.",
     proj_github: "GitHub →",
     contact_title: "Zusammenarbeiten",
-    contact_sub: "Offen für DevOps-, Systemadministrator- oder Python-Entwickler-Stellen.",
+    contact_sub: "Ich bin in Brünn und suche eine Stelle im IT-Support oder in der Systemadministration. Wählen Sie einen Kontaktweg.",
+    contact_fab: "Kontakt", contact_choose: "Kontaktweg auswählen", contact_phone: "Telefon",
     footer_built: "Erstellt mit FastAPI · Docker · GitHub Actions"
   }
 };
@@ -241,6 +251,34 @@ const revealObserver = new IntersectionObserver(entries => {
 }, { threshold: 0.1 });
 
 document.querySelectorAll('.reveal-section').forEach(s => revealObserver.observe(s));
+
+/* ── Quick contact menu ───────────────────────── */
+const contactWidget = document.getElementById('contactWidget');
+const contactFab = document.getElementById('contactFab');
+const contactPopover = document.getElementById('contactPopover');
+
+function setContactMenuOpen(open) {
+  if (!contactFab || !contactPopover) return;
+  if ((contactFab.getAttribute('aria-expanded') === 'true') === open) return;
+  contactPopover.hidden = !open;
+  contactFab.setAttribute('aria-expanded', String(open));
+  if (open) contactPopover.querySelector('a')?.focus();
+  else contactFab.focus();
+}
+
+contactFab?.addEventListener('click', () => {
+  setContactMenuOpen(contactFab.getAttribute('aria-expanded') !== 'true');
+});
+
+document.addEventListener('click', event => {
+  if (contactWidget && !contactWidget.contains(event.target)) setContactMenuOpen(false);
+});
+
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && contactFab?.getAttribute('aria-expanded') === 'true') {
+    setContactMenuOpen(false);
+  }
+});
 
 /* ── Terminal typewriter ──────────────────────── */
 const termLines = [
