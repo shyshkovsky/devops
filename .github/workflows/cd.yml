@@ -16,24 +16,32 @@ jobs:
       contents: read
 
     steps:
-      - name: Check secrets exist
+      - name: Check deployment secrets
         id: check
+        env:
+          SERVER_USER: ${{ secrets.SERVER_USER }}
+          SERVER_SSH_KEY: ${{ secrets.SERVER_SSH_KEY }}
         run: |
-          if [ -z "${{ secrets.SERVER_HOST }}" ]; then
-            echo "No server configured yet, skipping deploy"
-            echo "skip=true" >> $GITHUB_OUTPUT
+          if [ -z "$SERVER_USER" ] || [ -z "$SERVER_SSH_KEY" ]; then
+            echo "SSH deployment secrets are missing; skipping deploy"
+            echo "skip=true" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Debug host (temporary)
-        run: echo "HOST=${{ secrets.SERVER_HOST }}"
+      - name: Check server SSH reachability
+        if: steps.check.outputs.skip != 'true'
+        run: |
+          getent ahostsv4 shyshka.duckdns.org
+          timeout 10 bash -c 'cat < /dev/null > /dev/tcp/shyshka.duckdns.org/22'
 
       - name: Deploy to server
         if: steps.check.outputs.skip != 'true'
         uses: appleboy/ssh-action@v1
         with:
-          host: ${{ secrets.SERVER_HOST }}
+          host: shyshka.duckdns.org
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
+          timeout: 30s
+          command_timeout: 10m
           script: |
             cd ~/devops-demo
             git pull origin main
