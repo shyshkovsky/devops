@@ -27,3 +27,9 @@ jobs:
 
       - name: Build Docker image
         run: docker build -t devops-demo-backend ./backend
+
+      - name: Build contact service image
+        run: docker build -t devops-demo-contact ./contact-service
+
+      - name: Build ticket demo image
+        run: docker build -t devops-demo-tickets ./ticket-demo

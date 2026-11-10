@@ -867,3 +867,38 @@ section { padding: 110px 48px; }
 .lang-switching [data-i18n] {
   opacity: 0;
 }
+
+/* ── Contact form ─────────────────────────────── */
+.contact-form { display: flex; flex-direction: column; gap: 10px; margin-top: 36px; position: relative; }
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  background: var(--gray);
+  color: var(--white);
+  border: 1px solid var(--gray2);
+  border-left: 3px solid transparent;
+  padding: 16px 20px;
+  font-family: var(--font-body);
+  font-size: 15px;
+  transition: border-color .2s, background .2s;
+}
+.contact-form textarea { resize: vertical; min-height: 130px; }
+.contact-form input:focus,
+.contact-form textarea:focus { outline: none; border-left-color: var(--accent); background: #16161a; }
+.contact-form .hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.contact-submit {
+  align-self: flex-start;
+  background: var(--accent);
+  color: var(--black);
+  border: 0;
+  padding: 16px 32px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform .25s var(--ease-spring), opacity .2s;
+}
+.contact-submit:hover:not(:disabled) { transform: translateY(-3px); }
+.contact-submit:disabled { opacity: .6; cursor: wait; }
+.contact-form-status { min-height: 1.4em; font-size: 14px; color: var(--gray3); margin: 4px 0 0; }

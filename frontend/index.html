@@ -200,6 +200,18 @@
           <span>Python</span><span>Bash</span><span>Windows Server</span><span>Active Directory</span>
         </div>
       </div>
+      <div class="project-card reveal-child delay-3">
+        <div class="project-num">04</div>
+        <div class="project-tag" data-i18n="proj4_tag">Python · FastAPI · SQLite</div>
+        <h3 data-i18n="proj4_title">Helpdesk Ticket System (live demo)</h3>
+        <p data-i18n="proj4_desc">A working ticket system with customer and agent roles, SLA timers, comments and internal notes. Try it live; the demo data resets every 24 hours.</p>
+        <div class="project-stack">
+          <span>FastAPI</span><span>SQLite</span><span>REST API</span><span>Docker</span>
+        </div>
+        <div class="project-links">
+          <a href="#" id="ticketDemoLink" target="_blank" rel="noopener noreferrer" class="plink" data-i18n="proj_demo">Live demo →</a>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -227,6 +239,15 @@
           <span class="ci-val">linkedin.com/in/shyshkovsky</span>
         </a>
       </div>
+      <form class="contact-form reveal-child delay-2" id="contactForm" novalidate>
+        <input type="text" name="name" maxlength="100" required autocomplete="name">
+        <input type="email" name="email" maxlength="254" required autocomplete="email">
+        <input type="text" name="company" maxlength="120" autocomplete="organization">
+        <textarea name="message" rows="5" minlength="5" maxlength="4000" required></textarea>
+        <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button type="submit" class="contact-submit"></button>
+        <p class="contact-form-status" id="contactStatus" role="status" aria-live="polite"></p>
+      </form>
     </div>
   </section>
 
@@ -267,5 +288,6 @@
   </footer>
 
   <script src="main.js"></script>
+  <script src="contact-form.js"></script>
 </body>
 </html>
