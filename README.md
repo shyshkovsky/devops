@@ -24,9 +24,11 @@ The site is built as a small service stack: a static HTML/CSS/JavaScript fronten
 
 ```text
 Browser
-  └── Nginx :80
-       ├── Static portfolio files
-       └── /api/* ──> FastAPI :8000
+  ├── Nginx :80
+  │    ├── Static portfolio files
+  │    ├── POST /api/contact ──> contact service  (email + Telegram notification)
+  │    └── /api/*            ──> FastAPI :8000
+  └── Nginx :8081 ──> helpdesk ticket demo (FastAPI + SQLite)
 ```
 
 ## Run locally
@@ -41,6 +43,12 @@ docker compose up --build
 
 Open the portfolio at [http://localhost](http://localhost). The backend health endpoint is available through Nginx at [http://localhost/api/health](http://localhost/api/health).
 
+### Contact form and ticket demo
+
+Copy `contact-service/.env.example` to `contact-service/.env` and fill in the Telegram bot token and chat id
+and the SMTP credentials (never commit `.env`). Without it the site still runs; the form just reports a delivery
+error. The ticket demo is available at [http://localhost:8081](http://localhost:8081) and resets itself every 24 hours.
+
 To stop the services, press `Ctrl+C` and run:
 
 ```bash
@@ -51,6 +59,8 @@ docker compose down
 
 ```text
 backend/                 FastAPI service and checks
+contact-service/         Contact form backend: SMTP email + Telegram bot
+ticket-demo/             Helpdesk ticket system demo (own README)
 frontend/                Multilingual portfolio interface
 nginx/default.conf       Static hosting and API reverse proxy
 docker-compose.yml       Local service orchestration

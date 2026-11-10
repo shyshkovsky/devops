@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Helpdesk Demo</title>
+<style>
+  :root { --bg:#0f1419; --panel:#182028; --line:#2a3642; --text:#e6edf3; --muted:#8b98a5; --accent:#4cc2ff; --bad:#ff6b6b; --ok:#4cd98a; --warn:#ffb84c; }
+  * { box-sizing:border-box; }
+  body { margin:0; font:15px/1.5 system-ui,sans-serif; background:var(--bg); color:var(--text); }
+  header { display:flex; align-items:center; gap:12px; padding:12px 16px; border-bottom:1px solid var(--line); }
+  header h1 { font-size:18px; margin:0; flex:1; }
+  .banner { background:#2a2410; color:var(--warn); padding:8px 16px; font-size:13px; }
+  main { max-width:1100px; margin:0 auto; padding:16px; }
+  button { background:var(--accent); color:#04141f; border:0; border-radius:6px; padding:8px 14px; font:inherit; cursor:pointer; }
+  button.ghost { background:transparent; color:var(--text); border:1px solid var(--line); }
+  input,textarea,select { width:100%; background:var(--panel); color:var(--text); border:1px solid var(--line); border-radius:6px; padding:8px; font:inherit; }
+  textarea { min-height:80px; resize:vertical; }
+  .grid { display:grid; grid-template-columns:1fr; gap:16px; }
+  @media (min-width:860px) { .grid { grid-template-columns:1.1fr 1fr; } }
+  .card { background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:14px; }
+  .row { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+  .ticket { padding:10px; border-bottom:1px solid var(--line); cursor:pointer; }
+  .ticket:hover { background:#1d2731; }
+  .ticket:last-child { border-bottom:0; }
+  .tag { font-size:12px; padding:1px 8px; border-radius:99px; border:1px solid var(--line); color:var(--muted); }
+  .tag.urgent,.tag.overdue { color:var(--bad); border-color:var(--bad); }
+  .tag.high { color:var(--warn); border-color:var(--warn); }
+  .tag.resolved,.tag.closed { color:var(--ok); border-color:var(--ok); }
+  .muted { color:var(--muted); font-size:13px; }
+  .comment { border-left:3px solid var(--line); padding:4px 10px; margin:8px 0; white-space:pre-wrap; }
+  .comment.internal { border-color:var(--warn); background:#241f10; }
+  .stats { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:12px; }
+  .stat { background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:8px 14px; }
+  .stat b { display:block; font-size:20px; }
+  .center { text-align:center; padding:48px 0; }
+  .space > * + * { margin-top:10px; }
+  [hidden] { display:none !important; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Helpdesk demo</h1>
+  <span id="who" class="muted"></span>
+  <button id="logout" class="ghost" hidden>Log out</button>
+</header>
+<div class="banner">Demo environment: shared with other visitors and wiped every 24 hours. Please don't enter real information.</div>
+
+<main id="login" class="center space">
+  <p>Try the ticket system as:</p>
+  <div class="row" style="justify-content:center">
+    <button id="as-customer">Customer</button>
+    <button id="as-agent" class="ghost">Support agent</button>
+  </div>
+  <p class="muted">Customers see only their own tickets. Agents see everything, internal notes, SLA and stats.</p>
+</main>
+
+<main id="app" hidden>
+  <div id="stats" class="stats" hidden></div>
+  <div class="grid">
+    <section class="card">
+      <div class="row" style="margin-bottom:8px">
+        <strong style="flex:1">Tickets</strong>
+        <select id="filter" style="width:auto">
+          <option value="">All</option><option value="open">Open</option>
+          <option value="in_progress">In progress</option><option value="resolved">Resolved</option>
+          <option value="closed">Closed</option>
+        </select>
+      </div>
+      <div id="list"></div>
+      <hr style="border-color:var(--line)">
+      <form id="new" class="space">
+        <strong>New ticket</strong>
+        <input id="n-title" placeholder="Title" maxlength="120" required>
+        <textarea id="n-desc" placeholder="Describe the problem" maxlength="2000" required></textarea>
+        <div class="row">
+          <select id="n-prio" style="width:auto">
+            <option value="low">Low</option><option value="normal" selected>Normal</option>
+            <option value="high">High</option><option value="urgent">Urgent</option>
+          </select>
+          <button type="submit">Create</button>
+        </div>
+      </form>
+    </section>
+    <section class="card" id="detail"><p class="muted">Select a ticket.</p></section>
+  </div>
+  <p id="msg" class="muted" role="status"></p>
+</main>
+
+<script>
+const $ = (id) => document.getElementById(id);
+let token = null, me = null, current = null;
+
+function el(tag, text, cls) {           // textContent only: user input is never parsed as HTML
+  const n = document.createElement(tag);
+  if (text !== undefined) n.textContent = text;
+  if (cls) n.className = cls;
+  return n;
+}
+const tag = (t, cls) => el('span', t.replace('_', ' '), 'tag ' + (cls || t));
+const fmt = (s) => new Date(s).toLocaleString();
+
+async function api(path, opts = {}) {
+  const r = await fetch(path, {
+    ...opts,
+    headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: 'Bearer ' + token } : {}) },
+    body: opts.body ? JSON.stringify(opts.body) : undefined,
+  });
+  if (r.status === 401) { logout(); throw new Error('Session expired, please log in again'); }
+  if (!r.ok) {
+    let d = ''; try { d = (await r.json()).detail; } catch {}
+    throw new Error(typeof d === 'string' && d ? d : 'Request failed (' + r.status + ')');
+  }
+  return r.json();
+}
+const say = (t) => { $('msg').textContent = t || ''; };
+
+async function login(role) {
+  try {
+    const d = await api('/api/login', { method: 'POST', body: { role } });
+    token = d.token; me = d;
+    $('who').textContent = d.name + ' (' + d.role + ')';
+    $('login').hidden = true; $('app').hidden = false; $('logout').hidden = false;
+    await refresh();
+  } catch (e) { alert(e.message); }
+}
+function logout() {
+  token = me = current = null;
+  $('login').hidden = false; $('app').hidden = true; $('logout').hidden = true;
+  $('who').textContent = ''; $('detail').replaceChildren(el('p', 'Select a ticket.', 'muted'));
+}
+
+async function refresh() {
+  try {
+    const q = $('filter').value ? '?status=' + $('filter').value : '';
+    const tickets = await api('/api/tickets' + q);
+    const list = $('list'); list.replaceChildren();
+    if (!tickets.length) list.append(el('p', 'No tickets.', 'muted'));
+    for (const t of tickets) {
+      const row = el('div', undefined, 'ticket');
+      const top = el('div', undefined, 'row');
+      top.append(el('strong', '#' + t.id + ' ' + t.title), tag(t.status), tag(t.priority));
+      if (t.overdue) top.append(tag('overdue'));
+      row.append(top, el('div', t.created_by_name + ' · ' + fmt(t.created_at), 'muted'));
+      row.onclick = () => openTicket(t.id);
+      list.append(row);
+    }
+    if (me.role === 'agent') {
+      const s = await api('/api/stats');
+      const box = $('stats'); box.hidden = false; box.replaceChildren();
+      const add = (label, n) => { const d = el('div', undefined, 'stat'); d.append(el('b', String(n)), el('span', label, 'muted')); box.append(d); };
+      for (const [k, v] of Object.entries(s.by_status)) add(k.replace('_', ' '), v);
+      add('overdue (SLA)', s.overdue);
+    }
+  } catch (e) { say(e.message); }
+}
+
+async function openTicket(id) {
+  try {
+    const t = await api('/api/tickets/' + id); current = id;
+    const box = $('detail'); box.replaceChildren();
+    const head = el('div', undefined, 'row');
+    head.append(el('strong', '#' + t.id + ' ' + t.title), tag(t.status), tag(t.priority));
+    if (t.overdue) head.append(tag('overdue'));
+    box.append(head,
+      el('p', t.description, 'comment'),
+      el('div', 'By ' + t.created_by_name + ' · due ' + fmt(t.due_at) + ' · assignee: ' + (t.assignee || 'unassigned'), 'muted'));
+
+    if (me.role === 'agent') {
+      const ctl = el('div', undefined, 'row'); ctl.style.margin = '10px 0';
+      const st = el('select'); for (const s of ['open', 'in_progress', 'resolved', 'closed']) { const o = el('option', s.replace('_', ' ')); o.value = s; st.append(o); } st.value = t.status;
+      const pr = el('select'); for (const p of ['low', 'normal', 'high', 'urgent']) { const o = el('option', p); o.value = p; pr.append(o); } pr.value = t.priority;
+      const take = el('button', 'Assign to me', 'ghost');
+      st.style.width = pr.style.width = 'auto';
+      const patch = (b) => api('/api/tickets/' + id, { method: 'PATCH', body: b }).then(() => { refresh(); openTicket(id); }).catch((e) => say(e.message));
+      st.onchange = () => patch({ status: st.value });
+      pr.onchange = () => patch({ priority: pr.value });
+      take.onclick = () => patch({ assign_to_me: true });
+      ctl.append(st, pr, take); box.append(ctl);
+    }
+
+    box.append(el('strong', 'Comments'));
+    if (!t.comments.length) box.append(el('p', 'No comments yet.', 'muted'));
+    for (const c of t.comments) {
+      const d = el('div', undefined, 'comment' + (c.internal ? ' internal' : ''));
+      d.append(el('div', c.author + (c.internal ? ' (internal note)' : '') + ' · ' + fmt(c.created_at), 'muted'), el('div', c.body));
+      box.append(d);
+    }
+    const f = el('form', undefined, 'space');
+    const ta = el('textarea'); ta.placeholder = 'Write a reply'; ta.maxLength = 2000; ta.required = true;
+    const row = el('div', undefined, 'row'); const send = el('button', 'Send'); send.type = 'submit';
+    let internal = null;
+    row.append(send);
+    if (me.role === 'agent') { internal = el('input'); internal.type = 'checkbox'; internal.style.width = 'auto'; const lb = el('label', 'Internal note', 'muted'); row.append(internal, lb); }
+    f.append(ta, row);
+    f.onsubmit = async (e) => {
+      e.preventDefault();
+      try { await api('/api/tickets/' + id + '/comments', { method: 'POST', body: { body: ta.value, internal: !!(internal && internal.checked) } }); openTicket(id); }
+      catch (err) { say(err.message); }
+    };
+    box.append(f);
+  } catch (e) { say(e.message); }
+}
+
+$('as-customer').onclick = () => login('customer');
+$('as-agent').onclick = () => login('agent');
+$('logout').onclick = logout;
+$('filter').onchange = refresh;
+$('new').onsubmit = async (e) => {
+  e.preventDefault();
+  try {
+    await api('/api/tickets', { method: 'POST', body: { title: $('n-title').value, description: $('n-desc').value, priority: $('n-prio').value } });
+    e.target.reset(); say('Ticket created.'); refresh();
+  } catch (err) { say(err.message); }
+};
+</script>
+</body>
+</html>
