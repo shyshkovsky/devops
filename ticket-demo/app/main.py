@@ -54,12 +54,31 @@ def db():
         conn.close()
 
 
-def init_db() -> None:
+def _demo_data_is_fresh() -> bool:
+    """True while the current demo data is younger than DEMO_RESET_HOURS (or resets are off)."""
+    try:
+        with db() as c:
+            row = c.execute("SELECT v FROM meta WHERE k='created_at'").fetchone()
+        if not row:
+            return False
+        if RESET_HOURS <= 0:
+            return True
+        age = (now() - datetime.fromisoformat(row["v"])).total_seconds()
+        return age < RESET_HOURS * 3600
+    except (sqlite3.Error, ValueError):
+        return False
+
+
+def init_db(force: bool = False) -> None:
+    # A restart (or a duplicate process that fails to bind its port) must not wipe live demo data
+    if not force and _demo_data_is_fresh():
+        return
     with db() as c:
         c.executescript(
             """
             DROP TABLE IF EXISTS comments; DROP TABLE IF EXISTS tickets;
-            DROP TABLE IF EXISTS sessions; DROP TABLE IF EXISTS users;
+            DROP TABLE IF EXISTS sessions; DROP TABLE IF EXISTS users; DROP TABLE IF EXISTS meta;
+            CREATE TABLE meta(k TEXT PRIMARY KEY, v TEXT NOT NULL);
             CREATE TABLE users(id INTEGER PRIMARY KEY, name TEXT NOT NULL, role TEXT NOT NULL);
             CREATE TABLE sessions(token TEXT PRIMARY KEY, user_id INTEGER NOT NULL REFERENCES users(id));
             CREATE TABLE tickets(
@@ -71,6 +90,7 @@ def init_db() -> None:
                 author TEXT NOT NULL, body TEXT NOT NULL, internal INTEGER NOT NULL DEFAULT 0, created_at TEXT NOT NULL);
             """
         )
+        c.execute("INSERT INTO meta(k,v) VALUES ('created_at',?)", (iso(now()),))
         c.execute("INSERT INTO users(id,name,role) VALUES (1,?, 'agent')", (AGENT_NAME,))
         c.execute("INSERT INTO users(id,name,role) VALUES (2,'Alice (sample)', 'customer')")
         samples = [
@@ -106,8 +126,8 @@ async def lifespan(_: FastAPI):
 
         async def reset_loop():
             while True:
-                await asyncio.sleep(RESET_HOURS * 3600)
-                init_db()
+                await asyncio.sleep(300)
+                init_db()  # no-op until the demo data is RESET_HOURS old
 
         task = asyncio.create_task(reset_loop())
     yield
