@@ -13,11 +13,13 @@ New-Item -ItemType Directory -Force (Join-Path $here 'logs'), (Join-Path $here '
 # 1. Python: use a stable 3.11-3.13. Very new versions (e.g. 3.15) have no prebuilt
 #    wheels for pydantic/pyyaml and would need a C++ compiler.
 function Find-Python {
+  # native stderr must not be fatal here (py.exe prints errors for missing versions)
+  $ErrorActionPreference = 'Continue'
   $c = @()
   if (Get-Command py -ErrorAction SilentlyContinue) {
     foreach ($v in '3.12', '3.13', '3.11') {
       $p = & py "-$v" -c "import sys; print(sys.executable)" 2>$null
-      if ($LASTEXITCODE -eq 0 -and $p) { $c += $p }
+      if ($LASTEXITCODE -eq 0 -and $p -and (Test-Path ([string]$p))) { $c += [string]$p }
     }
   }
   foreach ($d in "$env:ProgramFiles\Python312\python.exe", "$env:LOCALAPPDATA\Programs\Python\Python312\python.exe") {
@@ -31,7 +33,9 @@ if (-not $python) {
   if (-not (Get-Command winget -ErrorAction SilentlyContinue)) {
     throw 'Python 3.12 not found and winget is unavailable. Install Python 3.12 from python.org, then run this again.'
   }
+  $prevEap = $ErrorActionPreference; $ErrorActionPreference = 'Continue'
   winget install -e --id Python.Python.3.12 --accept-package-agreements --accept-source-agreements
+  $ErrorActionPreference = $prevEap
   $env:Path = [Environment]::GetEnvironmentVariable('Path','Machine') + ';' + [Environment]::GetEnvironmentVariable('Path','User')
   $python = Find-Python
   if (-not $python) { throw 'Python 3.12 was installed but not found. Open a new PowerShell window and run this again.' }
@@ -44,9 +48,12 @@ if (Test-Path "$venv\Scripts\python.exe") {
   if ($ver -notin '3.11', '3.12', '3.13') { Remove-Item -Recurse -Force $venv }
 }
 if (-not (Test-Path "$venv\Scripts\python.exe")) { & $python -m venv $venv; if ($LASTEXITCODE -ne 0) { throw 'venv creation failed' } }
+$prevEap = $ErrorActionPreference; $ErrorActionPreference = 'Continue'   # pip writes notices to stderr
 & "$venv\Scripts\python.exe" -m pip install --upgrade pip
 & "$venv\Scripts\python.exe" -m pip install --only-binary=:all: -r "$repo\backend\requirements.txt" -r "$repo\contact-service\requirements.txt" -r "$repo\ticket-demo\requirements.txt"
-if ($LASTEXITCODE -ne 0) { throw 'pip install failed (see the error above)' }
+$pipExit = $LASTEXITCODE
+$ErrorActionPreference = $prevEap
+if ($pipExit -ne 0) { throw 'pip install failed (see the error above)' }
 
 # 2. Caddy (official download endpoint)
 $caddy = Join-Path $here 'bin\caddy.exe'
