@@ -30,11 +30,14 @@ $env:SITE_ROOT   = Join-Path $repo 'frontend'
 $env:XDG_DATA_HOME   = Join-Path $here 'data'     # where Caddy keeps its certificates
 $env:XDG_CONFIG_HOME = Join-Path $here 'data'
 
+# funnel.mode (created by setup-funnel.ps1) switches to the loopback-only Caddy config
+$caddyCfg = if (Test-Path (Join-Path $here 'funnel.mode')) { 'Caddyfile.funnel' } else { 'Caddyfile' }
+
 $services = @(
   @{ Name='backend'; File=$py;    Args="-m uvicorn main:app --app-dir `"$repo\backend`" --host 127.0.0.1 --port 8000"; Dir=$repo },
   @{ Name='contact'; File=$py;    Args="-m uvicorn app.main:app --host 127.0.0.1 --port 8002"; Dir=(Join-Path $repo 'contact-service') },
   @{ Name='tickets'; File=$py;    Args="-m uvicorn app.main:app --host 127.0.0.1 --port 8003"; Dir=(Join-Path $repo 'ticket-demo') },
-  @{ Name='caddy';   File=$caddy; Args="run --config `"$here\Caddyfile`" --adapter caddyfile"; Dir=$here }
+  @{ Name='caddy';   File=$caddy; Args="run --config `"$here\$caddyCfg`" --adapter caddyfile"; Dir=$here }
 )
 foreach ($s in $services) { if (-not (Test-Path $s.File)) { throw "Missing $($s.File). Run install.ps1 first." } }
 
@@ -53,5 +56,5 @@ try {
     }
   }
 } finally {
-  foreach ($p in $procs.Values) { if ($p -and -not $p.HasExited) { Stop-Process -Id $p.Id -Force -ErrorAction SilentlyContinue } }
+  foreach ($p in $procs.Values) { if ($p -and -not $p.HasExited) { & taskkill /PID $p.Id /T /F | Out-Null } }
 }

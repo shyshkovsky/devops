@@ -54,5 +54,9 @@
 
   // Ticket demo lives on the same host, port 8081
   const demo = document.getElementById('ticketDemoLink');
-  if (demo) demo.href = `${location.protocol}//${location.hostname}:8081/`;
+  if (demo) {
+    // behind Tailscale Funnel the demo is published on 8443 (Funnel allows only 443, 8443, 10000)
+    const port = location.hostname.endsWith('.ts.net') ? 8443 : 8081;
+    demo.href = `${location.protocol}//${location.hostname}:${port}/`;
+  }
 })();

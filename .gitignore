@@ -12,3 +12,4 @@ deploy/windows/bin/
 deploy/windows/logs/
 deploy/windows/data/
 contact-service/.env
+deploy/windows/funnel.mode

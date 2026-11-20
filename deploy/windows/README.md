@@ -18,3 +18,12 @@ Caddy is exposed (80, 443, 8081).
 - Restart: `Stop-ScheduledTask Portfolio-Stack; Start-ScheduledTask Portfolio-Stack`
 - Update the site: `git pull`, then restart the task
 - Never commit `contact-service\.env` or `duckdns.token` (both are ignored by git)
+
+## No router access? Use Tailscale Funnel
+If you cannot forward ports, skip steps 4-5 above and run (as Administrator, after `install.ps1`):
+```powershell
+powershell -ExecutionPolicy Bypass -File .\setup-funnel.ps1
+```
+It installs Tailscale, asks you to sign in (a URL is printed), switches Caddy to loopback-only listeners and
+publishes the site at `https://shyshka.<tailnet>.ts.net` and the ticket demo at `...ts.net:8443`.
+`stop-all.ps1` stops everything cleanly. Funnel mode is a file switch: delete `funnel.mode` and restart the task to go back.
