@@ -8,6 +8,13 @@ $caddy = Join-Path $here 'bin\caddy.exe'
 $logs  = Join-Path $here 'logs'
 New-Item -ItemType Directory -Force $logs, (Join-Path $here 'data') | Out-Null
 
+# Only one supervisor at a time (the boot task and a manual run would fight over the ports)
+$script:stackMutex = New-Object System.Threading.Mutex($false, 'Global\PortfolioStack')
+if (-not $script:stackMutex.WaitOne(0)) {
+  Write-Host 'The stack is already running (scheduled task Portfolio-Stack). Stop it first: Stop-ScheduledTask Portfolio-Stack'
+  exit 0
+}
+
 # Load contact-service\.env (KEY=VALUE lines) into this process; children inherit it
 $envFile = Join-Path $repo 'contact-service\.env'
 if (Test-Path $envFile) {
