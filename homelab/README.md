@@ -9,3 +9,14 @@ Prometheus + windows_exporter for Grafana, then Docker / VMs once virtualization
 
 Phase 2: `phase2-metrics.ps1` installs windows_exporter and Prometheus (loopback only, 90 days of history)
 and provisions a "Mini PC" dashboard in Grafana (`dashboards/mini-pc.json`).
+
+## AdGuard Home (DNS filtering, dashboard on :3001, Tailscale only)
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\homelab\adguard.ps1          # download, firewall, setup wizard on :3001
+# finish the wizard from a device on Tailscale: http://<tailscale-ip>:3001
+powershell -ExecutionPolicy Bypass -File .\homelab\adguard.ps1 -Finish  # install as a Windows service
+```
+
+Then in the Tailscale admin console: DNS -> Add nameserver -> the mini PC's Tailscale IP -> Override local DNS.
+DNS filtering does not block YouTube / YouTube Music in-app ads (they use the same domains as the video).
