@@ -10,9 +10,12 @@ if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
 }
 if (-not (Get-Command winget -ErrorAction SilentlyContinue)) { throw 'winget not found (install "App Installer" from the Microsoft Store).' }
 
+# "-File ... -Drives E,H,I" arrives as ONE string "E,H,I": split it and keep the first letter of each part
+$Drives = @($Drives | ForEach-Object { $_ -split '[,;\s]+' } | Where-Object { $_ } | ForEach-Object { $_.Substring(0, 1).ToUpper() })
+
 # 1. Plan the spare SSDs by size: smallest = backups, largest = media, middle = data
 $vols = @(foreach ($d in $Drives) {
-  $v = Get-Volume -DriveLetter $d -ErrorAction SilentlyContinue
+  $v = Get-Volume -ErrorAction SilentlyContinue | Where-Object { [string]$_.DriveLetter -eq $d } | Select-Object -First 1
   if ($v) { [pscustomobject]@{ Letter = $d; SizeGB = [int]($v.Size / 1GB); FreeGB = [int]($v.SizeRemaining / 1GB) } }
   else { Write-Warning "Drive ${d}: not found, skipping" }
 })
