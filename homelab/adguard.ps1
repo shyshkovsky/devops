@@ -60,7 +60,7 @@ if (-not $Finish) {
     return
   }
   Stop-AdGuard
-  Start-Process $exe -ArgumentList '-w', "`"$root`"", '-p', '3001' -WindowStyle Hidden
+  Start-Process $exe -ArgumentList '-w', "`"$root`"", '--web-addr', '0.0.0.0:3001' -WindowStyle Hidden
   Start-Sleep 3
   Write-Host ''
   Write-Host "Setup wizard: http://${ts}:3001   (open it from your laptop/phone with Tailscale on)"
