@@ -13,3 +13,5 @@ deploy/windows/logs/
 deploy/windows/data/
 contact-service/.env
 deploy/windows/funnel.mode
+
+deploy/windows/jobs-auth*.caddy

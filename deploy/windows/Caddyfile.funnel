@@ -33,6 +33,9 @@
 # Site (published by Funnel on https :443)
 :8088 {
 	bind 127.0.0.1
+	# optional password-protected /jobs/ (JobWatch dashboard for the partner profile);
+	# the file is created by set-jobs-auth.ps1 and is never committed. Without it /jobs/ does not exist.
+	import jobs-auth*.caddy
 	import portfolio
 }
 
