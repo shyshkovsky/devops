@@ -1,0 +1,49 @@
+# Caddy config for "Funnel mode": no router access, no public ports, no certificates here.
+# Tailscale Funnel receives the HTTPS traffic and forwards it to these loopback-only listeners.
+{
+	auto_https off
+	servers {
+		# keep the client address that Tailscale puts into X-Forwarded-For (used for rate limiting)
+		trusted_proxies static 127.0.0.1/32
+	}
+}
+
+(portfolio) {
+	encode gzip
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+	handle /api/contact {
+		request_body {
+			max_size 16KB
+		}
+		reverse_proxy 127.0.0.1:8002
+	}
+	handle_path /api/* {
+		reverse_proxy 127.0.0.1:8000
+	}
+	handle {
+		root * {$SITE_ROOT}
+		try_files {path} /index.html
+		file_server
+	}
+}
+
+# Site (published by Funnel on https :443)
+:8088 {
+	bind 127.0.0.1
+	# optional password-protected /jobs/ (JobWatch dashboard for the partner profile);
+	# the file is created by set-jobs-auth.ps1 and is never committed. Without it /jobs/ does not exist.
+	import jobs-auth*.caddy
+	import portfolio
+}
+
+# Ticket demo (published by Funnel on https :8443)
+:8089 {
+	bind 127.0.0.1
+	request_body {
+		max_size 16KB
+	}
+	reverse_proxy 127.0.0.1:8003
+}

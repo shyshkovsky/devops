@@ -2,3 +2,16 @@
 __pycache__/
 *.pyc
 .venv/
+
+*.db
+
+# Windows deployment: local-only secrets and runtime files
+deploy/windows/duckdns.token
+deploy/windows/.venv/
+deploy/windows/bin/
+deploy/windows/logs/
+deploy/windows/data/
+contact-service/.env
+deploy/windows/funnel.mode
+
+deploy/windows/jobs-auth*.caddy
