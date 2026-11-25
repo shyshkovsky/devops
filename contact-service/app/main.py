@@ -74,6 +74,11 @@ def _send_email_sync(m: ContactIn) -> None:
     msg["To"] = MAIL_TO
     msg["Reply-To"] = str(m.email)
     msg.set_content(format_text(m))
+    if SMTP_PORT == 465:  # implicit TLS (use it if STARTTLS on 587 is blocked or dropped)
+        with smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT, timeout=15) as s:
+            s.login(SMTP_USER, SMTP_PASSWORD)
+            s.send_message(msg)
+        return
     with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=15) as s:
         s.starttls()
         s.login(SMTP_USER, SMTP_PASSWORD)
