@@ -92,7 +92,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "100 - 100 * windows_memory_available_bytes / windows_cs_physical_memory_bytes",
+          "expr": "100 - 100 * windows_memory_available_bytes / (windows_memory_physical_total_bytes or windows_cs_physical_memory_bytes)",
           "legendFormat": "",
           "refId": "A"
         }
@@ -367,7 +367,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "windows_cs_physical_memory_bytes - windows_memory_available_bytes",
+          "expr": "(windows_memory_physical_total_bytes or windows_cs_physical_memory_bytes) - windows_memory_available_bytes",
           "legendFormat": "used",
           "refId": "A"
         },
@@ -376,7 +376,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "windows_cs_physical_memory_bytes",
+          "expr": "(windows_memory_physical_total_bytes or windows_cs_physical_memory_bytes)",
           "legendFormat": "total",
           "refId": "B"
         }

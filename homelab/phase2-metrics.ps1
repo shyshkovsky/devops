@@ -25,7 +25,7 @@ function Get-GithubAsset([string]$Repo, [string]$Pattern) {
 # 1. windows_exporter (Windows service, loopback only)
 if (-not (Get-Service windows_exporter -ErrorAction SilentlyContinue)) {
   $msi = Get-GithubAsset 'prometheus-community/windows_exporter' 'windows_exporter-*-amd64.msi'
-  $p = Start-Process msiexec.exe -Wait -PassThru -ArgumentList @('/i', "`"$msi`"", 'ENABLED_COLLECTORS=cpu,cs,logical_disk,memory,net,os,system,service', 'LISTEN_ADDR=127.0.0.1', 'LISTEN_PORT=9182', '/qn')
+  $p = Start-Process msiexec.exe -Wait -PassThru -ArgumentList @('/i', "`"$msi`"", 'ENABLED_COLLECTORS=cpu,logical_disk,memory,net,os,system,service', 'LISTEN_ADDR=127.0.0.1', 'LISTEN_PORT=9182', '/qn')
   if ($p.ExitCode -notin 0, 3010) { throw "windows_exporter MSI failed with exit code $($p.ExitCode)" }
   Start-Sleep -Seconds 5
 }
