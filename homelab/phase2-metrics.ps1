@@ -91,7 +91,7 @@ function Test-Url($u) { try { return (Invoke-WebRequest -UseBasicParsing $u -Tim
 $m = Test-Url 'http://127.0.0.1:9182/metrics'
 if (-not $m) { Write-Warning 'windows_exporter does not answer on 127.0.0.1:9182' }
 else {
-  foreach ($name in 'windows_cpu_time_total', 'windows_memory_available_bytes', 'windows_cs_physical_memory_bytes', 'windows_logical_disk_size_bytes', 'windows_net_bytes_received_total') {
+  foreach ($name in 'windows_cpu_time_seconds_total', 'windows_memory_available_bytes', 'windows_memory_physical_total_bytes', 'windows_logical_disk_size_bytes', 'windows_net_bytes_received_total') {
     if ($m -notmatch [regex]::Escape($name)) { Write-Warning "Metric $name is missing: the dashboard panel that uses it will be empty." }
   }
 }
